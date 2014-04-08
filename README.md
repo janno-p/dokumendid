@@ -26,15 +26,16 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 
 Kasutatavad andmebaasitabelid:
 
-DOKUMENDID allsüsteemist
+| Nimi | Allsüsteem | Lugemine | Lisamine | Muutmine | Kustutamine |
+| ---- | --- | --- | --- | --- | --- |
+| atr_type_selection_value | DOKUMENDID | &#10004; | | | |
 
-* `atr_type_selection_value`
 * `data_type`
 * `doc_attribute`
 * `doc_attribute_type`
-* `doc_catalog`
+* `doc_catalog` (crud)
 * `doc_catalog_type`
-* `doc_status`
+* `doc_status` (crud)
 * `doc_status_type`
 * `doc_subject`
 * `doc_subject_relation_type`
@@ -42,7 +43,7 @@ DOKUMENDID allsüsteemist
 * `doc_type`
 * `doc_type_attribute`
 * `document`
-* `document_doc_catalog`
+* `document_doc_catalog` (crud)
 * `document_doc_type`
 
 SUBJEKTID allsüsteemist
