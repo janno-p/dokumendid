@@ -53,7 +53,7 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 
 ### atr_type_selection_value ###
 
-*Dokumendi atribuudi tüübi valikväärtused*
+*Dokumendi atribuudi tüübi valikväärtused.*
 
 Mingi dokumendi atribuudi tüübi valikväärtused (sellel atribuudi tüübil peab `data_type=4`), mille
 hulgast kasutaja saab ekraanivormil valida atribuutidele väärtuseid. Väärtused ei ole kasutaja poolt
@@ -71,8 +71,9 @@ INSERT-lausetega otse andmebaasi.
 
 ### data_type ###
 
-Dokumendi atribuudi andmetüüp. Tabelites `doc_attribute_type` ja `doc_attribute` viidatakse sellele
-andmetüübile.
+*Dokumendi atribuudi andmetüüp.*
+
+Tabelites `doc_attribute_type` ja `doc_attribute` viidatakse sellele andmetüübile.
 
 Võimalikud väärtused:
 
@@ -85,6 +86,46 @@ Võimalikud väärtused:
 | --- | --- | --- |
 | &#10004; | `data_type` | Võtmeväli, sisu ei ole autonummerduv |
 | | `type_name` | Andmetüübi nimi |
+
+
+### doc_attribute ###
+
+*Dokumendi tunnus/omadus/atribuut.*
+
+Dokumendi atribuut sisaldab väärtust, mille sisestab ekraanivormilt kasutaja ja atribuudi tüüpi
+(mida väärtus tähendab). Igal dokumendil võib süsteemis olla 0&hellip;N atribuuti. Dokumendi
+atribuut on seotud atribuudi tüübiga tabelis `doc_attribute_type`.
+
+`doc_attribute_type` määrab
+
+* mis on atribuudi tüübi nimi ("vastamise tähtaeg", "turvatase")
+* mis on atribuudi andmetüüp (string, number, kuupäev või valik nimekirjast)
+* mis on atribuudi vaikimisi väärtus teksti tüüpi atribuudi korral
+* mis on atribuudi väärtus valiku-tüüpi atribuudi korral (`default_selection_id_fk`)
+
+Et ülesanne ei läheks liiga keeruliseks, ütleme, et kehtivad järgmised eeldused:
+
+* dokumendil saab olla ainult üks tüüp (andmebaasi skeem võimaldab dokumendile korraga mitu tüüpi,
+  aga teeme nii, et paneme sinna iga dokumendi puhul ainult ühe seose tabeliga `doc_type`)
+* dokumendi tüüp pannakse paika dokumendi lisamisel ja seda ekraanivormilt hiljem muuta ei saa
+* dokumendi atribuudid sisestatakse andmebaasi dokumendi lisamisel ja neid hiljem lisada või
+  kustutada ei saa (saab ainult väärtust "tühjaks" teha kui selle atribuudi `required=false`). See
+  tähendab - dokumendi struktuur, tema atribuudid ja nende atribuutide järjestus pannakse paika
+  dokumendi lisamisel ja seda hiljem muuta ei saa.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_attribute` | Võtmeväli, autonummerduv |
+| | `atr_type_selection_value_fk` | Viit atribuudi väärtusele kui valikule, tabelisse `atr_type_selection_value`. Täidetud juhul, kui `data_type=4` (valiku-tüüpi atribuut). |
+| | `doc_attribute_type_fk` | Viit dokumendi atribuudi tüübile tabelisse `doc_attribute_type_fk` |
+| | `document_fk` | Viit dokumendile, mille atribuudiga on tegemist, tabelisse `document` |
+| | `type_name` | Dokumendi atribuudi tüübi nimi. Tegelikult on see kirjas tabelis `doc_attribute_type`, aga soovi korral (atribuudi lisamisel) võib selle tüübi nime siia ka dubleerida. |
+| | `value_text` | Atribuudi väärtus. Kasutaja sisestab siis andmeid ekraanivormilt. Täidetud siis, kui tegemist on tekst-tüüpi atribuudiga (`data_type=1`) |
+| | `value_number` | Atribuudi väärtus. Kasutaja sisestab siia andmeid ekraanivormilt. Täidetud siis, kui tegemist on number-tüüpi atribuudiga (`data_type=2`) |
+| | `value_date` | Atribuudi väärtus. Kasutaja sisestab siia andmeid ekraanivormilt. Täidetud siis, kui tegemist on kuupäev- või *timestamp*-tüüpi atribuudiga (`data_type=3`) |
+| | `data_type` | Atribuudi andmetüüp<br />`data_type=1` - teksti-tüüpi atribuut<br />`data_type=2` - number-tüüpi atribuut<br />`data_type=3` - kuupäeva-tüüpi atribuut<br />`data_type=4` - valiku-tüüpi atribuut<br />Selle välja sisust sõltub, millisest andmeväljast näidatakse andmeid ekraanivormil ja millisesse andmevälja kirjutatakse kasutaja muudetud andmed tagasi (samuti päringud oskavad atribuudi väärtust selle välja järgi õigest andmeväljast vaadata) |
+| | `orderby` | Järjekord - näitab millises järjekorras näidatakse atribuute ekraanivormil. Võetakse atribuudi lisamisel tabelist `doc_attribute_type` |
+| | `required` | Näitab, kas kasutaja tohib andmeid sisestades ja muutes ekraanivormil selle atribuudi väärtust tühjaks jätta (`required=false`) või mitte (`required=true`). Võetakse atribuudi lisamisel tabelist `doc_attribute_type` |
 
 
 ## Vana ##

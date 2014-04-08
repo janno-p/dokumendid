@@ -26,6 +26,7 @@ atr_type_selection_values = AtrTypeSelectionValue.create([
     value_text: 'maaramata',
     orderby: 4 }])
 
+# Temporarily disable readonly for DataTypes
 DataType.class_eval do
   def readonly?
     false
