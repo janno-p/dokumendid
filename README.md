@@ -27,32 +27,28 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 Kasutatavad andmebaasitabelid:
 
 | Nimi | Allsüsteem | Lugemine | Lisamine | Muutmine | Kustutamine |
-| ---- | --- | --- | --- | --- | --- |
+| ---- | --- |:---:|:---:|:---:|:---:|
 | atr_type_selection_value | DOKUMENDID | &#10004; | | | |
-
-* `data_type`
-* `doc_attribute`
-* `doc_attribute_type`
-* `doc_catalog` (crud)
-* `doc_catalog_type`
-* `doc_status` (crud)
-* `doc_status_type`
-* `doc_subject`
-* `doc_subject_relation_type`
-* `doc_subject_type`
-* `doc_type`
-* `doc_type_attribute`
-* `document`
-* `document_doc_catalog` (crud)
-* `document_doc_type`
-
-SUBJEKTID allsüsteemist
-
-* `customer`
-* `employee`
-* `enterprise`
-* `person`
-* `user_account`
+| data_type | DOKUMENDID | &#10004; | | | |
+| doc_attribute | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| doc_attribute_type | DOKUMENDID | &#10004; | | | |
+| doc_catalog | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| doc_catalog_type | DOKUMENDID | &#10004; | | | |
+| doc_status | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| doc_status_type | DOKUMENDID | &#10004; | | | |
+| doc_subject | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| doc_subject_relation_type | DOKUMENDID | &#10004; | | | |
+| doc_subject_type | DOKUMENDID | &#10004; | | | |
+| doc_type | DOKUMENDID | &#10004; | | | |
+| doc_type_attribute | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| document | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| document_doc_catalog | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| document_doc_type | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| customer | SUBJEKTID | &#10004; | | | |
+| employee | SUBJEKTID | &#10004; | | | |
+| enterprise | SUBJEKTID | &#10004; | | | |
+| person | SUBJEKTID | &#10004; | | | |
+| user_account | SUBJEKTID | &#10004; | | | |
 
 
 ## Vana ##
