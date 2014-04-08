@@ -25,3 +25,19 @@ atr_type_selection_values = AtrTypeSelectionValue.create([
     doc_attribute_type_fk: 2,
     value_text: 'maaramata',
     orderby: 4 }])
+
+DataType.class_eval do
+  def readonly?
+    false
+  end
+end
+
+data_types = DataType.create([
+  { data_type: 1,
+    type_name: 'string' },
+  { data_type: 2,
+    type_name: 'number' },
+  { data_type: 3,
+    type_name: 'kuupaev' },
+  { data_type: 4,
+    type_name: 'valik nimekirjast' }])
