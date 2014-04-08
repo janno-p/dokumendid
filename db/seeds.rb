@@ -6,7 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# Attribute type selection values
+# Temporarily disable readonly for DataTypes
+AtrTypeSelectionValue.class_eval do
+  def readonly?
+    false
+  end
+end
 
 atr_type_selection_values = AtrTypeSelectionValue.create([
   { atr_type_selection_value: 1,
