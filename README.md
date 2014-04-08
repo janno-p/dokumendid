@@ -28,30 +28,30 @@ Kasutatavad andmebaasitabelid:
 
 DOKUMENDID allsüsteemist
 
-    * atr_type_selection_value
-    * data_type
-    * doc_attribute
-    * doc_attribute_type
-    * doc_catalog
-    * doc_catalog_type
-    * doc_status
-    * doc_status_type
-    * doc_subject
-    * doc_subject_relation_type
-    * doc_subject_type
-    * doc_type
-    * doc_type_attribute
-    * document
-    * document_doc_catalog
-    * document_doc_type
+* `atr_type_selection_value`
+* `data_type`
+* `doc_attribute`
+* `doc_attribute_type`
+* `doc_catalog`
+* `doc_catalog_type`
+* `doc_status`
+* `doc_status_type`
+* `doc_subject`
+* `doc_subject_relation_type`
+* `doc_subject_type`
+* `doc_type`
+* `doc_type_attribute`
+* `document`
+* `document_doc_catalog`
+* `document_doc_type`
 
 SUBJEKTID allsüsteemist
 
-    * customer
-    * employee
-    * enterprise
-    * person
-    * user_account
+* `customer`
+* `employee`
+* `enterprise`
+* `person`
+* `user_account`
 
 
 ## Vana ##
