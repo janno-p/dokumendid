@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408145934) do
+ActiveRecord::Schema.define(version: 20140408154923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 20140408145934) do
     t.integer "data_type"
     t.integer "orderby"
     t.string  "required",                    limit: 1
+  end
+
+  create_table "doc_attribute_type", primary_key: "doc_attribute_type", force: true do |t|
+    t.integer  "default_selection_id_fk"
+    t.string   "type_name"
+    t.string   "default_value_text"
+    t.integer  "data_type_fk"
+    t.string   "multiple_attributes",     limit: 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

@@ -42,3 +42,30 @@ data_types = DataType.create([
     type_name: 'kuupaev' },
   { data_type: 4,
     type_name: 'valik nimekirjast' }])
+
+# Temporarily disable readonly for DocAttributeTypes
+DocAttributeType.class_eval do
+  def readonly?
+    false
+  end
+end
+
+DocAttributeType.create([
+  { doc_attribute_type: 1,
+    default_selection_id_fk: nil,
+    type_name: 'saatjad',
+    default_value_text: nil,
+    data_type_fk: 1,
+    multiple_attributes: 'N'},
+  { doc_attribute_type: 2,
+    default_selection_id_fk: 4,
+    type_name: 'vastamise tahtaeg',
+    default_value_text: nil,
+    data_type_fk: 4,
+    multiple_attributes: 'N' },
+  { doc_attribute_type: 3,
+    default_selection_id_fk: nil,
+    type_name: 'formaat',
+    default_value_text: nil,
+    data_type_fk: 1,
+    multiple_attributes: 'N' }])
