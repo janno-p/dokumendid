@@ -66,8 +66,7 @@ INSERT-lausetega otse andmebaasi.
 | --- | --- | --- |
 | &#10004; | `atr_type_selection_value` | Võtmeväli, sisu autonummerduv |
 | | `value_text` | Valikväärtuse nimetus |
-| | `orderby` | Järjekord - näitab, millises järjekorras näidatakse kasutajale valikväärtusi
-(näiteks "combo-box"-is) |
+| | `orderby` | Järjekord - näitab, millises järjekorras näidatakse kasutajale valikväärtusi (näiteks "combo-box"-is) |
 
 
 ### data_type ###
