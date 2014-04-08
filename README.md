@@ -60,7 +60,7 @@ hulgast kasutaja saab ekraanivormil valida atribuutidele väärtuseid. Väärtus
 sisestatavad, vaid ta saab ainult etteantud loendist valida.
 
 Antud tabelisse ei ole selles ülesandes vaja läbi rakenduse andmeid lisada. Andmed sisestatakse
-INSERT-lausetega otse andmebaasi.
+`INSERT`-lausetega otse andmebaasi.
 
 | PK | Andmeväli | Kirjeldus |
 | --- | --- | --- |
@@ -126,6 +126,38 @@ Et ülesanne ei läheks liiga keeruliseks, ütleme, et kehtivad järgmised eeldu
 | | `data_type` | Atribuudi andmetüüp<br />`data_type=1` - teksti-tüüpi atribuut<br />`data_type=2` - number-tüüpi atribuut<br />`data_type=3` - kuupäeva-tüüpi atribuut<br />`data_type=4` - valiku-tüüpi atribuut<br />Selle välja sisust sõltub, millisest andmeväljast näidatakse andmeid ekraanivormil ja millisesse andmevälja kirjutatakse kasutaja muudetud andmed tagasi (samuti päringud oskavad atribuudi väärtust selle välja järgi õigest andmeväljast vaadata) |
 | | `orderby` | Järjekord - näitab millises järjekorras näidatakse atribuute ekraanivormil. Võetakse atribuudi lisamisel tabelist `doc_attribute_type` |
 | | `required` | Näitab, kas kasutaja tohib andmeid sisestades ja muutes ekraanivormil selle atribuudi väärtust tühjaks jätta (`required=false`) või mitte (`required=true`). Võetakse atribuudi lisamisel tabelist `doc_attribute_type` |
+
+
+### doc_attribute_type ###
+
+*Dokumendi atribuudi tüüp.*
+
+Dokumentidel võib süsteemis olla erinevaid atribuute. Atribuutidel on tüübid. Tüüp määrab, mis on
+selle atribuudi tähendus ja mis informatsiooni antud tüüpi atribuut hoiab. Millised atribuudid on
+seotud milliste dokumendi tüüpidega on kirjas tabelis `doc_type_attribute`.
+
+Üks atribuudi tüüp võib olla seotud mitme dokumenditüübiga.
+
+Dokumendi atribuudi tüüp määrab ka ära, mis on seda tüüpi atribuudi andmetüüp (tekst, number,
+kuupäev, valik) ja mis on vaikimisi atribuudi väärtus (kui tegemist on teksti-tüüpi või valiku-tüüpi
+atribuudiga).
+
+Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, andmed sisestatakse
+`INSERT`-lausetega otse andmebaasi.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_attribute_type` | Võtmeväli, autonummerduv |
+| | `default_selection_id_fk` | Vaikimisi valiku id, viit tabelisse `atr_type_selection_value` ("atribuudi tüübi valikväärtused") |
+| | `type_name` | Atribuudi tüübi nimi |
+| | `data_type_fk` | Andmetüüp, viit tabelisse `data_type` |
+| | `multiple_attributes` | Selles ülesandes ei kasuta |
+| | `default_value_text` | Seda tüüpi dokumendi atribuudi vaikimisi väärtus. Võib olla täidetud siis, kui `data_type=1` |
+
+
+### doc_catalog ###
+
+*Dokumendi kataloog.*
 
 
 ## Vana ##
