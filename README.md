@@ -26,27 +26,27 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 
 | Nimi | Allsüsteem | Loe | Lisa | Muuda | Kustuta |
 | ---- | --- |:---:|:---:|:---:|:---:|
-| atr_type_selection_value | DOKUMENDID | &#10004; | | | |
-| data_type | DOKUMENDID | &#10004; | | | |
-| doc_attribute | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| doc_attribute_type | DOKUMENDID | &#10004; | | | |
-| doc_catalog | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| doc_catalog_type | DOKUMENDID | &#10004; | | | |
-| doc_status | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| doc_status_type | DOKUMENDID | &#10004; | | | |
-| doc_subject | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| doc_subject_relation_type | DOKUMENDID | &#10004; | | | |
-| doc_subject_type | DOKUMENDID | &#10004; | | | |
-| doc_type | DOKUMENDID | &#10004; | | | |
-| doc_type_attribute | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| document | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| document_doc_catalog | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| document_doc_type | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
-| customer | SUBJEKTID | &#10004; | | | |
-| employee | SUBJEKTID | &#10004; | | | |
-| enterprise | SUBJEKTID | &#10004; | | | |
-| person | SUBJEKTID | &#10004; | | | |
-| user_account | SUBJEKTID | &#10004; | | | |
+| `atr_type_selection_value` | DOKUMENDID | &#10004; | | | |
+| `data_type` | DOKUMENDID | &#10004; | | | |
+| `doc_attribute` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `doc_attribute_type` | DOKUMENDID | &#10004; | | | |
+| `doc_catalog` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `doc_catalog_type` | DOKUMENDID | &#10004; | | | |
+| `doc_status` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `doc_status_type` | DOKUMENDID | &#10004; | | | |
+| `doc_subject` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `doc_subject_relation_type` | DOKUMENDID | &#10004; | | | |
+| `doc_subject_type` | DOKUMENDID | &#10004; | | | |
+| `doc_type` | DOKUMENDID | &#10004; | | | |
+| `doc_type_attribute` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `document` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `document_doc_catalog` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `document_doc_type` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `customer` | SUBJEKTID | &#10004; | | | |
+| `employee` | SUBJEKTID | &#10004; | | | |
+| `enterprise` | SUBJEKTID | &#10004; | | | |
+| `person` | SUBJEKTID | &#10004; | | | |
+| `user_account` | SUBJEKTID | &#10004; | | | |
 
 
 ## Andmetabelite ja väljade kirjeldused ##
@@ -66,7 +66,26 @@ INSERT-lausetega otse andmebaasi.
 | --- | --- | --- |
 | &#10004; | `atr_type_selection_value` | Võtmeväli, sisu autonummerduv |
 | | `value_text` | Valikväärtuse nimetus |
-| | `orderby` | Järjekord - näitab, millises järjekorras näidatakse kasutajale valikväärtusi (näiteks "combo-box"-is) |
+| | `orderby` | Järjekord - näitab, millises järjekorras näidatakse kasutajale valikväärtusi
+(näiteks "combo-box"-is) |
+
+
+### data_type ###
+
+Dokumendi atribuudi andmetüüp. Tabelites `doc_attribute_type` ja `doc_attribute` viidatakse sellele
+andmetüübile.
+
+Võimalikud väärtused:
+
+1. atribuut on teksti tüüpi
+2. atribuut on number tüüpi
+3. atribuut on kuupäev/*timestamp* tüüpi
+4. atribuut on valiku tüüpi
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `data_type` | Võtmeväli, sisu ei ole autonummerduv |
+| | `type_name` | Andmetüübi nimi |
 
 
 ## Vana ##
