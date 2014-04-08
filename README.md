@@ -62,6 +62,7 @@ sisestatavad, vaid ta saab ainult etteantud loendist valida.
 Antud tabelisse ei ole selles ülesandes vaja läbi rakenduse andmeid lisada. Andmed sisestatakse
 INSERT-lausetega otse andmebaasi.
 
+| Andmeväli | Kirjeldus |
 | --- | --- |
 | atr_type_selection_value (pk) | Võtmeväli, sisu autonummerduv |
 | value_text | Valikväärtuse nimetus |
