@@ -22,11 +22,9 @@ Dokumendi staatuse muutmisel (täpsemalt - selle muudatuse salvestamisel) lisata
 ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise staatuse kehtivus.
 
 
-## Andmed ##
+## Kasutatavad andmetabelid ##
 
-Kasutatavad andmebaasitabelid:
-
-| Nimi | Allsüsteem | Lugemine | Lisamine | Muutmine | Kustutamine |
+| Nimi | Allsüsteem | Loe | Lisa | Muuda | Kustuta |
 | ---- | --- |:---:|:---:|:---:|:---:|
 | atr_type_selection_value | DOKUMENDID | &#10004; | | | |
 | data_type | DOKUMENDID | &#10004; | | | |
@@ -49,6 +47,24 @@ Kasutatavad andmebaasitabelid:
 | enterprise | SUBJEKTID | &#10004; | | | |
 | person | SUBJEKTID | &#10004; | | | |
 | user_account | SUBJEKTID | &#10004; | | | |
+
+
+## Andmetabelite ja väljade kirjeldused ##
+
+### atr_type_selection_value ###
+
+*Dokumendi atribuudi tüübi valikväärtused*
+
+Mingi dokumendi atribuudi tüübi valikväärtused (sellel atribuudi tüübil peab `data_type=4`), mille
+hulgast kasutaja saab ekraanivormil valida atribuutidele väärtuseid. Väärtused ei ole kasutaja poolt
+sisestatavad, vaid ta saab ainult etteantud loendist valida.
+
+Antud tabelisse ei ole selles ülesandes vaja läbi rakenduse andmeid lisada. Andmed sisestatakse
+INSERT-lausetega otse andmebaasi.
+
+| atr_type_selection_value (pk) | Võtmeväli, sisu autonummerduv |
+| value_text | Valikväärtuse nimetus |
+| orderby | Järjekord - näitab, millises järjekorras näidatakse kasutajale valikväärtusi (näiteks "combo-box"-is) |
 
 
 ## Vana ##
