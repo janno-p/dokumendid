@@ -136,25 +136,30 @@ dokumendi sisestamise vorm nii, et seal oleksid ka väljad selle dokumendi tüü
 
 Näiteks dokumendi tüüp 10 puhul saame sellise atribuudi tüüpide komplekti:
 
-    SELECT  DAT.doc_attribute_type,
-            DAT.type_name,
-            DTA.orderby,
-            DTA.required,
-            DTA.created_by_default,
-            DAT.default_selection_id_fk AS valiku_id,
-            DAT.data_type_fk
-      FROM  doc_attribute_type DAT
-            INNER JOIN  doc_type_attribute DTA
-                    ON  DAT.doc_attribute_type = DTA.doc_attribute_type_fk
-     WHERE  DTA.doc_type_fk=10;
+```SQL
+SELECT  DAT.doc_attribute_type,
+        DAT.type_name,
+        DTA.orderby,
+        DTA.required,
+        DTA.created_by_default,
+        DAT.default_selection_id_fk AS valiku_id,
+        DAT.data_type_fk
+  FROM  doc_attribute_type DAT
+        INNER JOIN  doc_type_attribute DTA
+                ON  DAT.doc_attribute_type = DTA.doc_attribute_type_fk
+ WHERE  DTA.doc_type_fk = 10;
+```
 
 Kui on tegemist atribuudiga mille andmetüübiks on 4 ("valik"), siis peame tabelist
 `atr_type_selection_value` küsima selle atribuudi tüübiga seotud valikud *combobox*-is näitamiseks:
 
-    SELECT  ATSV.atr_type_selection_value,
-            ATSV.value_text
-      FROM  atr_type_selection_value ATSV
-     WHERE  ATSV.doc_attribute_type_fk = 2 ORDER BY orderby;
+```SQL
+  SELECT  ATSV.atr_type_selection_value,
+          ATSV.value_text
+    FROM  atr_type_selection_value ATSV
+   WHERE  ATSV.doc_attribute_type_fk = 2
+ORDER BY  orderby;
+```
 
 Kui kasutaja nüüd vajutab dokumendi lisamise vormil lisamise nuppu tuleb rakenduses teha 6
 `INSERT`-lauset.
@@ -184,20 +189,22 @@ jätta) ja millises järjekorras atribuute ekraanivormil kuvatakse. Ja see info 
 Andmebaasi sisestatud dokumendi andmed saame (muutmisvormi genereerimiseks) kätte nüüd sellise
 päringuga:
 
-      SELECT  D.document,
-              DAT.type_name,
-              DA.value_text,
-              DA.doc_attribute_type_fk,
-              DA.value_number,
-              DA.value_date,
-              DA.atr_type_selection_value_fk
-        FROM  document D
-               LEFT JOIN  doc_attribute DA
-                      ON  D.document = DA.document_fk
-              INNER JOIN  doc_attribute_type DAT
-                      ON  DA.doc_attribute_type_fk = DAT.doc_attribute_type
-       WHERE  D.document = 1
-    ORDER BY  DA.orderby;
+```SQL
+  SELECT  D.document,
+          DAT.type_name,
+          DA.value_text,
+          DA.doc_attribute_type_fk,
+          DA.value_number,
+          DA.value_date,
+          DA.atr_type_selection_value_fk
+    FROM  document D
+           LEFT JOIN  doc_attribute DA
+                  ON  D.document = DA.document_fk
+          INNER JOIN  doc_attribute_type DAT
+                  ON  DA.doc_attribute_type_fk = DAT.doc_attribute_type
+   WHERE  D.document = 1
+ORDER BY  DA.orderby;
+```
 
 Ülemiselt pildilt näete et erinevat tüüpi atribuutide (tekst, number, kuupäev, valik) väärtused
 tuleb salvestada erinevatesse andmeväljadesse tabelis `doc_attribute`.
@@ -625,36 +632,40 @@ atribuudi tüüpi. Lisage selliseid tüüpe, mis on string tüübid (atribuudi v
 `data_type=3` (atribuudi väärtus salvestatakse `doc_attribute` tabelis `value_date` välja) ja
 `data_type=4` (atribuudi väärtused võetakse valikväärtustena tabelist `atr_type_selection_value`).
 
-    INSERT INTO  doc_attribute_type
-                 (type_name, data_type_fk, multiple_attributes)
-         VALUES  ('saatjad', 1, 'N');
+```SQL
+INSERT INTO  doc_attribute_type
+             (type_name, data_type_fk, multiple_attributes)
+     VALUES  ('saatjad', 1, 'N');
 
-    INSERT INTO  doc_attribute_type
-                 (type_name, data_type_fk, default_selection_id_fk, multiple_attributes)
-         VALUES  ('vastamise tahtaeg', 4, 4, 'N');
+INSERT INTO  doc_attribute_type
+             (type_name, data_type_fk, default_selection_id_fk, multiple_attributes)
+     VALUES  ('vastamise tahtaeg', 4, 4, 'N');
 
-    INSERT INTO  doc_attribute_type
-                 (type_name, data_type_fk, multiple_attributes)
-         VALUES  ('formaat', 1, 'N');
+INSERT INTO  doc_attribute_type
+             (type_name, data_type_fk, multiple_attributes)
+     VALUES  ('formaat', 1, 'N');
+```
 
 Kui lisasite atribuudi tüüpe, millele on valikväärtused, siis lisage ka nendele tüüpidele vastavad
 valikväärtused tabelisse `atr_type_selection_value`.
 
-    INSERT INTO  atr_type_selection_value
-                 (doc_attribute_type_fk, value_text, orderby)
-         VALUES  (2, 'kahe paeva jooksul', 1);
+```SQL
+INSERT INTO  atr_type_selection_value
+             (doc_attribute_type_fk, value_text, orderby)
+     VALUES  (2, 'kahe paeva jooksul', 1);
 
-    INSERT INTO  atr_type_selection_value
-                 (doc_attribute_type_fk, value_text, orderby)
-         VALUES  (2, 'nadala jooksul', 2);
+INSERT INTO  atr_type_selection_value
+             (doc_attribute_type_fk, value_text, orderby)
+     VALUES  (2, 'nadala jooksul', 2);
 
-    INSERT INTO  atr_type_selection_value
-                 (doc_attribute_type_fk, value_text, orderby)
-         VALUES  (2, 'kuu aja jooksul', 3);
+INSERT INTO  atr_type_selection_value
+             (doc_attribute_type_fk, value_text, orderby)
+     VALUES  (2, 'kuu aja jooksul', 3);
 
-    INSERT INTO  atr_type_selection_value
-                 (doc_attribute_type_fk, value_text, orderby)
-         VALUES  (2, 'maaramata', 4);
+INSERT INTO  atr_type_selection_value
+             (doc_attribute_type_fk, value_text, orderby)
+     VALUES  (2, 'maaramata', 4);
+```
 
 Rakenduse töö ettevalmistamiseks valige nüüd välja vähemalt 4 dokumendi tüüpi (`doc_type`) ja siduge
 iga tüübiga vähemalt **4-5** atribuudi tüüpi (andmebaasis tähendab see `INSERT` lauseid
@@ -678,3 +689,44 @@ INSERT INTO  doc_type_attribute
 ```
 
 &hellip;
+
+
+#### Dokumentide lisamine, muutmine ja kustutamine ####
+
+Dokumentide sisestamisel eeldame, et:
+
+* sisestamisel on alati määratud dokumendi tüüp, sellest tüübist sõltub dokumendi sisestamise ja
+  muutmise vormi sisu
+* sisestamisel on alati valitud dokumendi kataloog
+
+Dokumendi andmete muutmisel dokumendi tüüpi muuta ei saa, *read-only*.
+
+Dokumenti peab saama kustutada. Kustutamisel kustutatakse ära ka kõik dokumendiga seotud kirjed
+atribuutide, staatuste, kataloogi-seoste ja subjekti-seoste tabelitest.
+
+Dokumendi lisamisel, kustutamisel ja andmete salvestamisel tuleb muuta dokumendi kataloogi andmeid
+tabelis `doc_catalog`, et salvestada kataloogi sisu muutmise aeg ja viimane muutja.
+
+**Dokumendi lisamise ja andmete salvestamise kohta vaata kindlasti tabeli `doc_attribute` selgitust.**
+
+
+#### Dokumentide seostamine subjektidega SUBJEKTIDE allsüsteemist ####
+
+**NB!** Need, kes teevad ülesannet üksi, võivad selle punkti vahele jätta.
+
+Dokumentidele peab saama lisada seoseid SUBJEKTIDE allsüsteemi isikutega `person` ja ettevõtetega
+`enterprise`. Seose loomisel peab saama määrata seose tüüpi (seose tähendus, semantika) ja peab
+saama sisestada märkust seose kohta (`note`).
+
+Dokumendi seoseid subjektidega peab saama kustutada.
+
+Dokumendi seoste andmete muutmist pole vaja teha.
+
+
+#### Dokumentide otsing ####
+
+Dokumentide otsinguvormil on kaks võimalikku olekut:
+
+1. siis kui mingi dokumendi tüüp (mille seast otsida) on valimata
+2. siis kui dokumendi tüüp on valitud
+
