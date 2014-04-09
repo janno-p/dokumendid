@@ -103,6 +103,105 @@ atribuut on seotud atribuudi tüübiga tabelis `doc_attribute_type`.
 * mis on atribuudi vaikimisi väärtus teksti tüüpi atribuudi korral
 * mis on atribuudi väärtus valiku-tüüpi atribuudi korral (`default_selection_id_fk`)
 
+Informatsioon dokumendi muutmise vormi näitamiseks võetakse kokku 6-st tabelist:
+
+1. Tabelist `document` dokumendi põhiandmed (nimi, kirjeldus)
+2. Tabelitest `document_doc_type` ja `doc_type` dokumendi tüüp
+3. Tabelist `doc_attribute` dokumendi atribuutide väärtused ("saatjad", "vastamise tähtaeg",
+   "formaat")
+4. Tabelist `doc_attribute_type` atribuutide nimed (mis tüüpi atribuudiga on tegemist). Kuigi seda
+   tüübi nime võib dubleerida ka dokumendi atribuudi kirjes, tabelis `doc_attribute` on selle jaoks
+   väli `type_name`.
+5. Tabelist `atr_type_selection_value` valikväärtused juhul kui atribuudi andmetüüp on "valik"
+   (`data_type=4`). Olemuselt on ikka tegemist number-tüübiga, aga numbrid selle atribuudi tüübi
+   väärtusena on tegelikult viited tabelisse `atr_type_selection_value`.
+
+Valikväärtused tabelis `atr_type_selection_value` on seotud atribuudi tüübiga `doc_attribute_type`
+nii et kui me teame dokumendi atribuudi tüüpi, siis me saame alati küsida `atr_type_selection_value`
+tabelist, mis on sellele atribuudi tüübile vastavad valikud.
+
+**Millal sisestatakse dokumendi atribuudid tabelisse `doc_attribute`?**
+
+Lühike vastus on - dokumendi sisestamisel tabelisse `document`, siis kui kasutaja vajutab "Sisesta
+uus dokument" nuppu.
+
+Dokumendi atribuudid sisestatakse dokumendi lisamisel. Millised atribuudid tuleb dokumendile lisada
+sõltub dokumendi tüübist. Igal dokumendi tüübiga on seotud atribuudid tüübid. Seda seost hoitakse
+tabelis `doc_type_attribute` ("dokumendi tüübi atribuudid"). Selles ülesandes on tehtud selline
+eeldus, et dokumendi lisamisel (lisamisvormi avamisel) on alati teada (on valitud) dokumendi tüüp.
+Kui dokukmendi tüüp on teada siis on võimalik lugeda tabelist `doc_type_attribute`, millised
+atribuudi tüübid on selle dokumendi tüübiga seotud ja millises järjekorras tuleb neid atribuute
+ekraanivormil näidata (`doc_type_attribute.orderby`). See informatsioon on piisav et genereerida
+dokumendi sisestamise vorm nii, et seal oleksid ka väljad selle dokumendi tüübi atribuutide jaoks.
+
+Näiteks dokumendi tüüp 10 puhul saame sellise atribuudi tüüpide komplekti:
+
+    SELECT  DAT.doc_attribute_type,
+            DAT.type_name,
+            DTA.orderby,
+            DTA.required,
+            DTA.created_by_default,
+            DAT.default_selection_id_fk AS valiku_id,
+            DAT.data_type_fk
+      FROM  doc_attribute_type DAT
+            INNER JOIN  doc_type_attribute DTA
+                    ON  DAT.doc_attribute_type = DTA.doc_attribute_type_fk
+     WHERE  DTA.doc_type_fk=10;
+
+Kui on tegemist atribuudiga mille andmetüübiks on 4 ("valik"), siis peame tabelist
+`atr_type_selection_value` küsima selle atribuudi tüübiga seotud valikud *combobox*-is näitamiseks:
+
+    SELECT  ATSV.atr_type_selection_value,
+            ATSV.value_text
+      FROM  atr_type_selection_value ATSV
+     WHERE  ATSV.doc_attribute_type_fk = 2 ORDER BY orderby;
+
+Kui kasutaja nüüd vajutab dokumendi lisamise vormil lisamise nuppu tuleb rakenduses teha 6
+`INSERT`-lauset.
+
+1. `INSERT` tabelisse `document`
+2. `INSERT` tabelisse `document_doc_catalog` (eeldame et dokumendi lisamisel on mingi dokumendi
+   kataloog alati valitud), et siduda dokument dokumendikataloogiga
+3. `INSERT` tabelisse `document_doc_type`, et siduda dokument tema tüübiga
+4. neli `INSERT`-i tabelisse `document_attribute`. Atribuudi väärtused võetakse dokumendi lisamise
+   vormilt. Ilmselt on sellesse vormi peidetud väljadesse (*hidden fields*) võimalik vormi
+   genereerimisel lisada ka infot selle kohta mis tüüpi atribuudiga on tegemist ja seda infot saab
+   siis `INSERT` lausete konstrueerimisel rakenduse kasutada.
+
+Lisaks tuleks uue dokumendi lisamisel uuendada dokumendi kataloogi tabelis `doc_catalog` selle
+kataloogi sisu uuendamise aega (`content_updated`) ja kes sisu uuendas (`content_updated_by`).
+
+Atribuudi lisamisel loetakse tabelist `doc_type_attribute` ka info selle kohta kas selle dokumendi
+tüübi puhul on selle atribuudi väärtus nõutud (st. kasutaja ei tohi seda välja ekraanivormil tühjaks
+jätta) ja millises järjekorras atribuute ekraanivormil kuvatakse. Ja see info kopeeritakse
+`doc_attribute` tabelisse ka.
+
+    doc_type_attribute.required = doc_attribute.required
+    doc_type_attribute.orderby = doc_attribute.orderby
+
+**Atribuudi väärtused erinevatesse andmeväljadesse tabelis `doc_attribute`.**
+
+Andmebaasi sisestatud dokumendi andmed saame (muutmisvormi genereerimiseks) kätte nüüd sellise
+päringuga:
+
+      SELECT  D.document,
+              DAT.type_name,
+              DA.value_text,
+              DA.doc_attribute_type_fk,
+              DA.value_number,
+              DA.value_date,
+              DA.atr_type_selection_value_fk
+        FROM  document D
+               LEFT JOIN  doc_attribute DA
+                      ON  D.document = DA.document_fk
+              INNER JOIN  doc_attribute_type DAT
+                      ON  DA.doc_attribute_type_fk = DAT.doc_attribute_type
+       WHERE  D.document = 1
+    ORDER BY  DA.orderby;
+
+Ülemiselt pildilt näete et erinevat tüüpi atribuutide (tekst, number, kuupäev, valik) väärtused
+tuleb salvestada erinevatesse andmeväljadesse tabelis `doc_attribute`.
+
 Et ülesanne ei läheks liiga keeruliseks, ütleme, et kehtivad järgmised eeldused:
 
 * dokumendil saab olla ainult üks tüüp (andmebaasi skeem võimaldab dokumendile korraga mitu tüüpi,
@@ -116,7 +215,7 @@ Et ülesanne ei läheks liiga keeruliseks, ütleme, et kehtivad järgmised eeldu
 | PK | Andmeväli | Kirjeldus |
 | --- | --- | --- |
 | &#10004; | `doc_attribute` | Võtmeväli, autonummerduv |
-| | `atr_type_selection_value_fk` | Viit atribuudi väärtusele kui valikule, tabelisse `atr_type_selection_value`. Täidetud juhul, kui `data_type=4` (valiku-tüüpi atribuut). |
+| | `atr_type_selection_value_fk` | Viit atribuudi väärtusele kui valikule, tabelisse `atr_type_selection_value`. Täidetud juhul, kui `data_type=4` (valiku-tüüpi atribuut).<br />Atribuudi väärtus (see tähendab viide tabeli `atr_type_selection_value` võib olla atribuudi lisamisel andmebaasi juba olla täidetud – juhul kui sellel atribuudi tüübil on vaikimisi väärtus olemas – `doc_attribute_type.default_selection_id_fk` |
 | | `doc_attribute_type_fk` | Viit dokumendi atribuudi tüübile tabelisse `doc_attribute_type_fk` |
 | | `document_fk` | Viit dokumendile, mille atribuudiga on tegemist, tabelisse `document` |
 | | `type_name` | Dokumendi atribuudi tüübi nimi. Tegelikult on see kirjas tabelis `doc_attribute_type`, aga soovi korral (atribuudi lisamisel) võib selle tüübi nime siia ka dubleerida. |
