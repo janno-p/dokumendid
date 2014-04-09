@@ -613,3 +613,68 @@ kasutatakse vajadusel rakenduses `created_by` ja `updated_by` väljade täitmise
 
 
 ## Rakenduselt oodatav funktsionaalsus ##
+
+### Funktsionaalsuste loetelu ###
+
+#### Dokumendi tüüpide ettevalmistamine `INSERT`-lausetega ####
+
+Lisage `INSERT`-lausetega dokumendi atribuudi tüüpide tabelisse `doc_attribute_type` **16-20**
+atribuudi tüüpi. Lisage selliseid tüüpe, mis on string tüübid (atribuudi väärtus salvestatakse
+`doc_attribute` tabelis `value_text` välja), aga lisage ka mõned atribuudi tüübid, millel
+`data_type=2` (atribuudi väärtus salvestatakse `doc_attribute` tabelis `value_number` välja),
+`data_type=3` (atribuudi väärtus salvestatakse `doc_attribute` tabelis `value_date` välja) ja
+`data_type=4` (atribuudi väärtused võetakse valikväärtustena tabelist `atr_type_selection_value`).
+
+    INSERT INTO  doc_attribute_type
+                 (type_name, data_type_fk, multiple_attributes)
+         VALUES  ('saatjad', 1, 'N');
+
+    INSERT INTO  doc_attribute_type
+                 (type_name, data_type_fk, default_selection_id_fk, multiple_attributes)
+         VALUES  ('vastamise tahtaeg', 4, 4, 'N');
+
+    INSERT INTO  doc_attribute_type
+                 (type_name, data_type_fk, multiple_attributes)
+         VALUES  ('formaat', 1, 'N');
+
+Kui lisasite atribuudi tüüpe, millele on valikväärtused, siis lisage ka nendele tüüpidele vastavad
+valikväärtused tabelisse `atr_type_selection_value`.
+
+    INSERT INTO  atr_type_selection_value
+                 (doc_attribute_type_fk, value_text, orderby)
+         VALUES  (2, 'kahe paeva jooksul', 1);
+
+    INSERT INTO  atr_type_selection_value
+                 (doc_attribute_type_fk, value_text, orderby)
+         VALUES  (2, 'nadala jooksul', 2);
+
+    INSERT INTO  atr_type_selection_value
+                 (doc_attribute_type_fk, value_text, orderby)
+         VALUES  (2, 'kuu aja jooksul', 3);
+
+    INSERT INTO  atr_type_selection_value
+                 (doc_attribute_type_fk, value_text, orderby)
+         VALUES  (2, 'maaramata', 4);
+
+Rakenduse töö ettevalmistamiseks valige nüüd välja vähemalt 4 dokumendi tüüpi (`doc_type`) ja siduge
+iga tüübiga vähemalt **4-5** atribuudi tüüpi (andmebaasis tähendab see `INSERT` lauseid
+`doc_type_attribute` tabelisse). Sisestage andmed nii, et erinevatel dokumendi tüüpidel vähemalt
+mõned atribuudi tüübid kattuvad.
+
+```SQL
+INSERT INTO  doc_type_attribute
+             (doc_type_fk, doc_attribute_type_fk, created_by_default, orderby, required)
+     VALUES  (10, 1, 'Y', 1, 'N');
+
+/* doc_attribute_type-fk=2 (vastamise tahtaeg) */
+INSERT INTO  doc_type_attribute
+             (doc_type_fk, doc_attribute_type_fk, created_by_default, orderby, required)
+     VALUES  (10, 2, 'Y', 2, 'Y');
+
+/* doc_attribute_type-fk=3 (dokumendi formaadi kohta mingid tapsemad andmed) */
+INSERT INTO  doc_type_attribute
+             (doc_type_fk, doc_attribute_type_fk, created_by_default, orderby, required)
+     VALUES  (10, 3, 'Y', 3, 'N');
+```
+
+&hellip;
