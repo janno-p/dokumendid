@@ -30,7 +30,7 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 | `data_type` | DOKUMENDID | &#10004; | | | |
 | `doc_attribute` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
 | `doc_attribute_type` | DOKUMENDID | &#10004; | | | |
-| `doc_catalog` | DOKUMENDID | &#10004; | ? | &#10004; | ? |
+| `doc_catalog` | DOKUMENDID | &#10004; | | &#10004; | |
 | `doc_catalog_type` | DOKUMENDID | | | | |
 | `doc_status` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
 | `doc_status_type` | DOKUMENDID | &#10004; | | | |
