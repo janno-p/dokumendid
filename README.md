@@ -399,3 +399,19 @@ muutmise aeg ja viimane muutja (sisselogitud kasutaja), sest kataloogi sisu muut
 
 ### document_doc_type ###
 
+Dokumendi tüüp.
+
+Dokumendi tüüp ei ole salvestatud dokumendi tabelisse `document`, vaid dokumendi tüübi `doc_type` ja
+dokumendi vahetabelisse - `document_doc_type`.
+
+Kuigi skeem võimaldab ühte dokumenti siduda mitme dokumenditüübiga, võtame selles ülesandes
+eelduseks, et dokumendil saab olla ainult üks tüüp.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `document_doc_type` | Võtmeväli, sisu autonummerduv |
+| | `doc_type_fk` | Viit dokumendi tüübile tabelisse `doc_type` |
+| | `document_fk` | Viit dokumendile, mille tüübiga on tegemist, viit tabelisse `document` |
+
+
+## Rakenduselt oodatav funktsionaalsus ##

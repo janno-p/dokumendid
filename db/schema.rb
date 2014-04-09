@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409152353) do
+ActiveRecord::Schema.define(version: 20140409152934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,11 @@ ActiveRecord::Schema.define(version: 20140409152353) do
     t.integer  "document_fk"
     t.integer  "doc_catalog_fk"
     t.datetime "catalog_time"
+  end
+
+  create_table "document_doc_type", primary_key: "document_doc_type", force: true do |t|
+    t.integer "doc_type_fk"
+    t.integer "document_fk"
   end
 
 end
