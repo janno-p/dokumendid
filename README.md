@@ -31,7 +31,7 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 | `doc_attribute` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
 | `doc_attribute_type` | DOKUMENDID | &#10004; | | | |
 | `doc_catalog` | DOKUMENDID | &#10004; | ? | &#10004; | ? |
-| `doc_catalog_type` | DOKUMENDID | &#10004; | | | |
+| `doc_catalog_type` | DOKUMENDID | | | | |
 | `doc_status` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
 | `doc_status_type` | DOKUMENDID | &#10004; | | | |
 | `doc_subject` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
@@ -209,6 +209,39 @@ Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, 
 *Dokumendi kataloogi tüüp*
 
 Ei ole selles ülesandes kasutusel
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_catalog_type` | |
+| | `type_name` | |
+
+
+### doc_status ###
+
+Dokumendi staatuste ajaloo ja jooksva staatuse tabel.
+
+Dokumendi peaks saama ekraanivormil valida dokumendi staatust. Mis need staatuse tüübid on - see
+pole tähtis, suvalised.
+
+Kui kasutaja vajutab dokumendi salvestamise nuppu, siis tuleb muuta dokumendi staatust dokumendi
+tabelis `document.doc_status_type_fk` ja lisada jooksva staatuse kohta kirje tabelisse `doc_status`.
+Staatuse `status_begin` alguseks salvestamise hetk ja staatuse lõpp määramata `status_end=NULL`.
+
+Kui dokumendil juba eelnevalt oli staatus, siis tuleb tabelis `doc_status` vana staatus lõpetada -
+täita ära `doc_status.status_end` vanal kirjel. Vana staatuse lõpetamise ajaks on uue staatuse
+algus.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_status` | Võtmeväli, sisu autonummerduv |
+| | `document_fk` | Viit dokumendile, mille staatusega on tegemist, tabelisse `document` |
+| | `doc_status_type_fk` | Viit staatuse tüübile tabelisse `doc_status_type` |
+| | `status_begin` | Staatuse algus. *Timestamp* tüüpi |
+| | `status_end` | Staatuse lõpp. Täidetakse siis, kui tekib uus staatus |
+| | `created_by` | Viit dokumendi sisestanud sisse logitud töötajale, viit SUBJEKTID allsüsteemi tabelisse `employee` |
+
+
+### doc_status_type ###
 
 
 ## Vana ##
