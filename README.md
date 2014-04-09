@@ -551,4 +551,65 @@ kasutatakse vajadusel rakenduses `created_by` ja `updated_by` väljade täitmise
 | | `active` | Kas töötaja on selles ettevõttes praegu töötaja (`Y`) või on seal kunagi olnud töötaja (`N`) |
 
 
+### enterprise ###
+
+Ettevõte.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `enterprise` | Võtmeväli, ettevõtte id. Sisu on autonummerduv |
+| | `name` | Ettevõtte nimi |
+| | `full_name` | Ettevõtte pikk, ametlik nimi |
+| | `created_by` | Rakendusse sisseloginud töötaja, kelle poolt ettevõte sisestatud. Viit tabelisse `employee` |
+| | `updated_by` | Sisseloginud töötaja, kelle poolt ettevõtte andmed (sealhulgas aadressid, kontaktid või atribuudid) on viimasena muudetud. Viit tabelisse `employee` |
+| | `created` | Ettevõtte sisestamise aeg (andmebaasi). Uuendatakse koos väljaga `created_by` |
+| | `updated` | Ettevõtte andmete muutmise aeg (uuendatakse koos väljaga `updated_by`) |
+
+
+### person ###
+
+Tabel isikute andmete hoidmiseks.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `person` | Võtmeväli, sisu autonummerduv |
+| | `first_name` | Eesnimi |
+| | `last_name` | Perekonnanimi |
+| | `identity_code` | Isikukood |
+| | `birth_date` | Sünniaeg |
+| | `created_by` | Sisseloginud töötaja, kelle poolt isik sisestatud. Viit tabelisse `employee` |
+| | `updated_by` | Sisseloginud töötaja, kelle poolt isiku andmed (sealhulgas aadressid, kontaktid või atribuudid) on viimasena muudetud. Viit tabelisse `employee` |
+| | `created` | Isiku andmebaasi sisestamise aeg (uuendatakse koos väljaga `created_by`) |
+| | `updated` | Isiku andmete viimase muutmise aeg (uuendatakse koos väljaga `updated_by`) |
+
+
+### user_account ###
+
+Töötaja kasutajakonto. Selleks, et rakendusse sisse logida, peavad tabelisse `employee` olema
+sisestatud töötajad ja nendel töötajatel (kes saavad sisse logida), peab olema üks konto tabelis
+`user_account`.
+
+Kõik ülesande variandid kasutavad sisselogimiseks tabelite `employee` ja `user_account` andmeid. Kui
+kasutaja sisestab kasutajanime ja parooli, siis otsitakse seda kasutajanime ja parooli tabelist
+`user_account` ja kui leitakse, siis leitakse ka sellele kasutajakontole vastava `employee`
+identifikaator (`user_account.employee_Fk`). Sisselogimisel leitud viidet `employee` tabeli kirjele
+kasutatakse vajadusel rakenduses `created_by` ja `updated_by` väljade täitmiseks.
+
+Üldiselt on soovitatav parooli väljas `passw` hoida paroole krüpteeritult (nt. MD5).
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `user_account` | Võtmeväli, sisu autonummerduv |
+| | `subject_type_fk` | Alati 3 (see tähendab, et `subject_fk` viitab alati tabelisse `employee`) |
+| | `subject_fk` | Viit tabelisse `employee` - töötaja, kelle kontoga on tegemist |
+| | `username` | Kasutajanimi |
+| | `passw` | Parool. Soovitatav hoida krüpteeritult. Kui parooli hoitakse andmebaasis krüpteeritult, siis autentimisel krüpteeritakse sama algoritmiga (nt. MD5) ära ka kasutaja sisestatud parool ja kontrollitakse nende võrdsust |
+| | `status` | Kas konto on kehtiv või mitte |
+| | `valid_from` | Konto kehtivuse algus (võib langeda kokku konto loomise ajaga) |
+| | `valid_to` | Konto kehtivuse lõpp (kui täitmata, siis tähendab, et kehtib määramata aja) |
+| | `created_by` | Kelle poolt konto on loodud. Viit tabelisse `employee` |
+| | `created` | Konto loomise aeg |
+| | `password_never_expires` | `Y` - parool ei aegu, `N` - parool aegub (mingi aja pärast, millal aegub pole oluline siin) |
+
+
 ## Rakenduselt oodatav funktsionaalsus ##

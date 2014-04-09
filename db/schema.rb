@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409185621) do
+ActiveRecord::Schema.define(version: 20140409194009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,39 @@ ActiveRecord::Schema.define(version: 20140409185621) do
     t.integer "enterprise_fk"
     t.integer "struct_unit_fk"
     t.string  "active",         limit: 1
+  end
+
+  create_table "enterprise", primary_key: "enterprise", force: true do |t|
+    t.string   "name"
+    t.string   "full_name"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created"
+    t.datetime "updated"
+  end
+
+  create_table "person", primary_key: "person", force: true do |t|
+    t.string   "first_name",    limit: 100
+    t.string   "last_name",     limit: 100
+    t.string   "identity_code", limit: 20
+    t.date     "birth_date"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created"
+    t.datetime "updated"
+  end
+
+  create_table "user_account", primary_key: "user_account", force: true do |t|
+    t.integer  "subject_type_fk"
+    t.integer  "subject_fk"
+    t.string   "username",               limit: 50
+    t.string   "passw",                  limit: 300
+    t.integer  "status"
+    t.date     "valid_from"
+    t.date     "valid_to"
+    t.integer  "created_by"
+    t.datetime "created"
+    t.string   "password_never_expires", limit: 1
   end
 
 end

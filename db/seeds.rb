@@ -255,3 +255,98 @@ Employee.create([
     person_fk: 3,
     enterprise_fk: 1,
     active: 'Y' }])
+
+# Temporarily disable readonly for Enterprises
+Enterprise.class_eval do
+  def readonly?
+    false
+  end
+end
+
+Enterprise.create([
+  { enterprise: 1,
+    name: 'Yhendatud Systeemid',
+    full_name: 'Oy yhendatud Systeemid Ltd',
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) },
+  { enterprise: 2,
+    name: 'Torupood',
+    full_name: 'Torupood OY',
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) }])
+
+# Temporarily disable readonly for People
+Person.class_eval do
+  def readonly?
+    false
+  end
+end
+
+Person.create([
+  { person: 1,
+    first_name: 'Juhan',
+    last_name: 'Juurikas',
+    identity_code: '54637474',
+    birth_date: DateTime.civil(1967, 11, 11),
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) },
+  { person: 2,
+    first_name: 'Marten',
+    last_name: 'Maasikas',
+    identity_code: '672727337XX',
+    birth_date: DateTime.civil(1977, 11, 11),
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) },
+  { person: 3,
+    first_name: 'Tanel',
+    last_name: 'Tuisk',
+    identity_code: '672727337XX',
+    birth_date: DateTime.civil(1980, 11, 11),
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) },
+  { person: 4,
+    first_name: 'Kaarel',
+    last_name: 'Klient',
+    identity_code: '5555555555XXXX',
+    birth_date: DateTime.civil(1970, 11, 11),
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) },
+  { person: 5,
+    first_name: 'Anna',
+    last_name: 'Aru',
+    identity_code: '57838222',
+    birth_date: DateTime.civil(1975, 11, 11),
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) },
+  { person: 6,
+    first_name: 'Tauno',
+    last_name: 'Toru',
+    identity_code: '672727337XX',
+    birth_date: DateTime.civil(1977, 11, 11),
+    created: DateTime.civil(2014, 4, 6, 20, 14, 16) }])
+
+# Temporarily disable readonly for UserAccounts
+UserAccount.class_eval do
+  def readonly?
+    false
+  end
+end
+
+UserAccount.create([
+  { user_account: 1,
+    subject_type_fk: 3,
+    subject_fk: 1,
+    username: 'juhan',
+    passw: 'c3833e23112f86f172ab150a50526843',
+    status: 1 },
+  { user_account: 2,
+    subject_type_fk: 3,
+    subject_fk: 2,
+    username: 'marten',
+    passw: '37b4931088193a73b6561bae19bf06d9',
+    status: 1 },
+  { user_account: 3,
+    subject_type_fk: 3,
+    subject_fk: 3,
+    username: 'tanel',
+    passw: '4579f13a9f0266d03218017ebe4e67c7',
+    status: 1 },
+  { user_account: 4,
+    subject_type_fk: 4,
+    subject_fk: 1,
+    username: 'kaarel',
+    passw: 'kmmm89',
+    status: 1 }])
