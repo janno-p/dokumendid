@@ -529,4 +529,26 @@ Kõik seosed, mis viitavad kõikides ülesande variantides kliendile, peavad vii
 | | `subject_fk` | Viit tabelisse `person` või `enterprise`, viitab ettevõttele või isikule, kes on klient. Millisesse tabelisse konkreetse aadressi kirje puhul viidatakse seda näitab välja `subject_type_fk` sisu. |
 
 
+### employee ###
+
+Töötaja andmed. Kõikide ülesannete variantide andmebaasides, kus on tabelites väljad `updated_by` ja
+`created_by` viitavad need väljad `employee` tabelisse.
+
+Kõik ülesande variandid kasutavad sisselogimiseks tabelite `employee` ja `user_account` andmeid. Kui
+kasutaja sisestab kasutajanime ja parooli, siis otsitakse seda kasutajanime ja parooli tabelist
+`user_account` ja kui leitakse, siis leitakse ka sellele kasutajakontole vastava `employee`
+identifikaator (`user_account.employee_fk`). Sisselogimisel leitud viidet `employee` tabeli kirjele
+kasutatakse vajadusel rakenduses `created_by` ja `updated_by` väljade täitmiseks.
+
+Üldiselt on soovitatav parooli väljas `passw` hoida paroole krüpteeritult (nt. MD5).
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `employee` | Võtmeväli, sisu autonummerduv |
+| | `struct_unit_fk` | Ei ole kasutusel |
+| | `enterprise_fk` | Viit tabelisse `enterprise`. Viit ettevõttele, mille töötajaga on tegemist |
+| | `person_fk` | Viit tabelisse `person`. Viit isikule, kes on töötaja |
+| | `active` | Kas töötaja on selles ettevõttes praegu töötaja (`Y`) või on seal kunagi olnud töötaja (`N`) |
+
+
 ## Rakenduselt oodatav funktsionaalsus ##

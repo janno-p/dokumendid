@@ -234,3 +234,24 @@ Customer.create([
   { customer: 3,
     subject_fk: 2,
     subject_type_fk: 2 }])
+
+# Temporarily disable readonly for Employees
+Employee.class_eval do
+  def readonly?
+    false
+  end
+end
+
+Employee.create([
+  { employee: 1,
+    person_fk: 1,
+    enterprise_fk: 1,
+    active: 'Y' },
+  { employee: 2,
+    person_fk: 2,
+    enterprise_fk: 1,
+    active: 'Y' },
+  { employee: 3,
+    person_fk: 3,
+    enterprise_fk: 1,
+    active: 'Y' }])
