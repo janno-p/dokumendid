@@ -216,3 +216,21 @@ DocType.create([
     super_type_fk: 3,
     level: 2,
     type_name: 'teabenoue' }])
+
+# Temporarily disable readonly for Customers
+Customer.class_eval do
+  def readonly?
+    false
+  end
+end
+
+Customer.create([
+  { customer: 1,
+    subject_fk: 4,
+    subject_type_fk: 1 },
+  { customer: 2,
+    subject_fk: 5,
+    subject_type_fk: 1 },
+  { customer: 3,
+    subject_fk: 2,
+    subject_type_fk: 2 }])

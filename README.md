@@ -513,4 +513,20 @@ eelduseks, et dokumendil saab olla ainult üks tüüp.
 | | `document_fk` | Viit dokumendile, mille tüübiga on tegemist, viit tabelisse `document` |
 
 
+### customer ###
+
+Klient. Kui isikul või ettevõttel on klient, siis tuleb andmebaasi lisada kirje sellesse tabelisse.
+`subject_fk` ja `subject_type_fk` näitavad, kas tegemist on isiku või ettevõttega ja viitavad
+vastavale kirjele `person` või `enterprise` tabelis.
+
+Kõik seosed, mis viitavad kõikides ülesande variantides kliendile, peavad viitama tabelisse
+`customer`.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `customer` | Võtmeväli, sisu autonummerduv |
+| | `subject_type_fk` | Viit tabelisse `subject_type`. Näitab, millisest tabelist tuleb otsida kliendi andmeid. Kui `subject_type_fk=1`, siis viitab väli `subject_fk` tabelisse `person`. Kui `subject_type_fk=2`, siis viitab väli `subject_fk` tabelisse `enterprise` |
+| | `subject_fk` | Viit tabelisse `person` või `enterprise`, viitab ettevõttele või isikule, kes on klient. Millisesse tabelisse konkreetse aadressi kirje puhul viidatakse seda näitab välja `subject_type_fk` sisu. |
+
+
 ## Rakenduselt oodatav funktsionaalsus ##
