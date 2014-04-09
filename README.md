@@ -30,7 +30,7 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 | `data_type` | DOKUMENDID | &#10004; | | | |
 | `doc_attribute` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
 | `doc_attribute_type` | DOKUMENDID | &#10004; | | | |
-| `doc_catalog` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
+| `doc_catalog` | DOKUMENDID | &#10004; | ? | &#10004; | ? |
 | `doc_catalog_type` | DOKUMENDID | &#10004; | | | |
 | `doc_status` | DOKUMENDID | &#10004; | &#10004; | &#10004; | &#10004; |
 | `doc_status_type` | DOKUMENDID | &#10004; | | | |
@@ -188,7 +188,7 @@ avaneb siis, kui tema peal klõpsata), siis võite selle kataloogipuu ka terviku
 harudega välja joonistada veebilehel (nii nagu ülemisel joonisel on näha).
 
 Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, andmed sisestatakse
-`INSERT`-lausetega otse andmebaasi. (*Kuigi CRUD tabel annab vastupidist infot?*)
+`INSERT`-lausetega otse andmebaasi.
 
 | PK | Andmeväli | Kirjeldus |
 | --- | --- | --- |

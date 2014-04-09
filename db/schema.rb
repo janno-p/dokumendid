@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408154923) do
+ActiveRecord::Schema.define(version: 20140409120536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,18 @@ ActiveRecord::Schema.define(version: 20140408154923) do
     t.string   "multiple_attributes",     limit: 1
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "doc_catalog", primary_key: "doc_catalog", force: true do |t|
+    t.integer  "catalog_owner_fk"
+    t.integer  "doc_catalog_type_fk"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "level"
+    t.datetime "content_updated"
+    t.integer  "content_updated_by"
+    t.integer  "upper_catalog_fk"
+    t.string   "folder"
   end
 
 end
