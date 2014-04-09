@@ -159,6 +159,57 @@ Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, 
 
 *Dokumendi kataloog.*
 
+Selles tabelis hoitakse dokumendi kataloogide hierarhiat ("puud"). Kõige ülemisel tasemel `level=1`
+ja `upper_catalog_fk=0`.
+
+Andmeid sisestades võiks tekitada maksimaalselt kolmetasemelise kataloogipuu, rohkem pole vaja.
+
+Dokumendi lisamisel võiks teha nii, et (uue) dokumendi salvestamisel on alati mingi kataloog
+kataloogipuust valitud - ja sellele kataloogile hakkab siis viitama kirje, mis seostab dokumendi
+selle kataloogiga, kus ta on - tabelis `document_doc_catalog`. Uue dokumendi lisamise tuleb
+tabelisse `document_doc_catalog` seega selline seostav kirje lisada.
+
+Dokumendi kataloogil on kaks andmevälja, mille sisu tuleb uuendada siis, kui muutub kataloogi sisu
+või selles kataloogis olevate dokumentide (kui andmebaasi kirjete) sisu.
+
+* `content_updated` - kataloogi sisu muutmise aeg, *timestamp*
+* `content_updated_by` - kes sisselogitud töötajatest muutis kataloogi sisu
+
+Neid välju tuleb uuendada siis, kui:
+
+1. kataloogi lisatakse uus dokument
+2. kataloogi tõstetakse olemasolev dokument mõnest teisest kataloogist
+3. kustutatakse dokument, mis asub selles kataloogis
+4. kataloogist tõstetakse dokument ära mõnda teise kataloogi (*cut and paste*)
+5. salvestatakse dokument, mis asub selles kataloogis
+
+**NB!** Kui peate keeruliseks kasutajaliidesel näidata avatavate harudega kataloogipuud (ming haru
+avaneb siis, kui tema peal klõpsata), siis võite selle kataloogipuu ka tervikuna, koos kõigi
+harudega välja joonistada veebilehel (nii nagu ülemisel joonisel on näha).
+
+Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, andmed sisestatakse
+`INSERT`-lausetega otse andmebaasi. (*Kuigi CRUD tabel annab vastupidist infot?*)
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_catalog` | Võtmeväli, sisu on autonummerduv |
+| | `catalog_owner_fk` | Ei ole selles ülesandes kasutusel |
+| | `doc_catalog_type_fk` | Ei ole selles ülesandes kasutusel |
+| | `name` | Kataloogi nimi |
+| | `description` | Kataloogi kirjeldus, ei ole vaja kasutada |
+| | `level` | Kataloogi tase kataloogipuus, kõige esimesel tasemel `level=0` |
+| | `content_updated` | Millal kataloogi sisu viimati muutus, *timestamp* |
+| | `upper_catalog_fk` | Viit ülemkataloogile samasse tabelisse `doc_catalog` |
+| | `content_updated_by` | Viit sisseloginud töötajale, kes muutis viimati kataloogi sisu, viit SUBJEKTIDE allsüsteemi tabelisse `employee` |
+| | `folder` | Kataloogile vastav failikataloog serveri failisüsteemis. Kui teete selles ülesandes dokumendifailide üleslaadimise (mida ei ole otseselt nõutud), siis saab selles väljas hoida failikataloogide *path*-i (sellise andmebaasis hoitava virtuaalse `doc_catalog`-iga võib seostada reaalse failisüsteemis oleva kataloogi, milles hoitakse siis sellesse kataloogi *uploaditud* dokumendifaile) |
+
+
+### doc_catalog_type ###
+
+*Dokumendi kataloogi tüüp*
+
+Ei ole selles ülesandes kasutusel
+
 
 ## Vana ##
 
