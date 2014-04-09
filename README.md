@@ -290,32 +290,18 @@ väärtuseks 1 või 2 - sõltuvalt sellest, kas valitud subjekt oli ettevõte `e
 
 Dokumendi ja subjekti vahelise seose tüüp.
 
-
-## Vana ##
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_subject_relation_type` | Võtmeväli, sisu on autonummerduv |
+| | `type_name` | Seose tüübi nimi |
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+### doc_subject_type ###
+
+Dokumendi subjekti tüüp. Näitab, kas seosetabeli `doc_subject` kirje viitab SUBJEKTIDE allsüsteemi
+isikule `person` või ettevõttele `enterprise`.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_subject_type` | Võtmeväli, sisu ei ole autonummerduv |
+| | `type_name` | Subjekti tüübi nimi: "ettevõte", "isik" |

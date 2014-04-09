@@ -137,3 +137,33 @@ DocStatusType.create([
     type_name: 'vastatud' },
   { doc_status_type: 5,
     type_name: 'koostamisel' }])
+
+# Temporarily disable readonly for DocSubjectRelationTypes
+DocSubjectRelationType.class_eval do
+  def readonly?
+    false
+  end
+end
+
+DocSubjectRelationType.create([
+  { doc_subject_relation_type: 1,
+    type_name: 'autor' },
+  { doc_subject_relation_type: 2,
+    type_name: 'tema kohta' },
+  { doc_subject_relation_type: 3,
+    type_name: 'talle saadetud' },
+  { doc_subject_relation_type: 4,
+    type_name: 'saatja' }])
+
+# Temporarily disable readonly for DocSubjectTypes
+DocSubjectType.class_eval do
+  def readonly?
+    false
+  end
+end
+
+DocSubjectType.create([
+  { doc_subject_type: 1,
+    type_name: 'isik' },
+  { doc_subject_type: 2,
+    type_name: 'ettevote' }])
