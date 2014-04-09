@@ -167,3 +167,52 @@ DocSubjectType.create([
     type_name: 'isik' },
   { doc_subject_type: 2,
     type_name: 'ettevote' }])
+
+# Temporarily disable readonly for DocTypes
+DocType.class_eval do
+  def readonly?
+    false
+  end
+end
+
+DocType.create([
+  { doc_type: 1,
+    super_type_fk: 0,
+    level: 1,
+    type_name: 'finantsdokument' },
+  { doc_type: 2,
+    super_type_fk: 0,
+    level: 1,
+    type_name: 'leping' },
+  { doc_type: 3,
+    super_type_fk: 0,
+    level: 1,
+    type_name: 'valjast saadetud' },
+  { doc_type: 4,
+    super_type_fk: 0,
+    level: 1,
+    type_name: 'maaratlemata' },
+  { doc_type: 5,
+    super_type_fk: 1,
+    level: 2,
+    type_name: 'arve' },
+  { doc_type: 6,
+    super_type_fk: 1,
+    level: 2,
+    type_name: 'finantsaruanne' },
+  { doc_type: 7,
+    super_type_fk: 2,
+    level: 2,
+    type_name: 'tarneleping' },
+  { doc_type: 8,
+    super_type_fk: 2,
+    level: 2,
+    type_name: 'yyrileping' },
+  { doc_type: 9,
+    super_type_fk: 2,
+    level: 2,
+    type_name: 'tooleping' },
+  { doc_type: 10,
+    super_type_fk: 3,
+    level: 2,
+    type_name: 'teabenoue' }])

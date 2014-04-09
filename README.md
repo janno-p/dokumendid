@@ -305,3 +305,24 @@ isikule `person` või ettevõttele `enterprise`.
 | --- | --- | --- |
 | &#10004; | `doc_subject_type` | Võtmeväli, sisu ei ole autonummerduv |
 | | `type_name` | Subjekti tüübi nimi: "ettevõte", "isik" |
+
+
+### doc_type ###
+
+Dokumendi tüüp. Kahetasemeline hierarhia, ülemtüübid ja alamtüübid. Konkreetse dokumendi tüübiks
+sobib teise taseme tüüp (`level=2`).
+
+Määratakse dokumendi lisamise ajal - kas enne dokumendi lisamise vormi kuvamist (see tähendab - enne
+kui rakendus näitab dokumendi lisamise vormi, küsib ta kasutaja käest, millist tüüpi dokumenti ta
+tahab sisestada) või dokumendi lisamise vormil.
+
+**NB!** Kuna dokumendi lisamise ekraanivorm genereeritakse valitud dokumendi tüübi alusel, siis
+tuleb see ekraanivorm ilmselt uuesti genereerida/kuvada, kui kasutaja valib ja vahetab lisamise
+vormil dokumendi tüüpi.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_type` | Võtmeväli, sisu autonummerduv |
+| | `type_name` | Dokumendi tüübi nimi |
+| | `level` | Dokumendi tüübi tase (`level=1` - ülemtüüp, `level=2` - mingi ülemtüübi alamtüüp) |
+| | `super_type_fk` | Viit ülemtüübile samasse tabelisse `doc_type`. Kui `level=1`, siis väärtuseks 0 |
