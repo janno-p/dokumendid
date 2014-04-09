@@ -243,6 +243,18 @@ algus.
 
 ### doc_status_type ###
 
+Dokumendi seisundi tüüp.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_status_type` | Võtmeväli, sisu autonummerduv |
+| | `type_name` | Dokumendi seisundi tüübi nimetus |
+
+
+### doc_subject ###
+
+Dokumendi seos ettevõtte või isikuga SUBJEKTIDE allsüsteemist.
+
 
 ## Vana ##
 

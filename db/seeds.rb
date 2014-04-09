@@ -118,3 +118,22 @@ DocCatalog.create([
     level: 2,
     upper_catalog_fk: 2,
     folder: '/home/t567245/doc_root/2/3' }])
+
+# Temporarily disable readonly for DocStatusTypes
+DocStatusType.class_eval do
+  def readonly?
+    false
+  end
+end
+
+DocStatusType.create([
+  { doc_status_type: 1,
+    type_name: 'vastu voetud' },
+  { doc_status_type: 2,
+    type_name: 'vastamisel' },
+  { doc_status_type: 3,
+    type_name: 'kooskolastatud' },
+  { doc_status_type: 4,
+    type_name: 'vastatud' },
+  { doc_status_type: 5,
+    type_name: 'koostamisel' }])

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409124024) do
+ActiveRecord::Schema.define(version: 20140409134703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,10 @@ ActiveRecord::Schema.define(version: 20140409124024) do
     t.integer  "content_updated_by"
     t.integer  "upper_catalog_fk"
     t.string   "folder"
+  end
+
+  create_table "doc_status_type", primary_key: "doc_status_type", force: true do |t|
+    t.string "type_name", limit: 200
   end
 
   create_table "doc_statuse", primary_key: "doc_status", force: true do |t|
