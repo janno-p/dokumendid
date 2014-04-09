@@ -347,3 +347,28 @@ sisestama vastava arvu kirjeid tabelisse `doc_attribute`.
 
 ### document ###
 
+Dokument on selle allsüsteemi põhiobjekt.
+
+Dokumendi, kui infoobjekti, omadused:
+
+* dokumendil on tüüp (seos tüübiga vahetabelis) ja tüübist sõltuvad atribuudid
+* dokument asub dokumendi kataloogis (seos vahetabeli kaudu)
+* dokument on seotud subjektidega (isikute ja ettevõtetega) SUBJEKTIDE allsüsteemist
+* dokumendil on staatus, staatuste ajalugu hoitakse eraldi tabelis `doc_status`
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `document` | Võtmeväli, sisu autonummerduv |
+| | `doc_status_type_fk` | Dokumendi praegu kehtiv staatus. Kehtivale staatusele vastab ka kirje tabelis `doc_status`, mille `status_end` on `NULL`. Staatuse muutmisel lõpetatakse tabelis `doc_status` eelmine staatus (`status_end=NOW()`) ja sisestatakse uus jooksev staatus (`status_begin=NOW()`). Viit tabelisse `doc_status_type` |
+| | `doc_nr` | Ei ole selles ülesandes kasutusel |
+| | `name` | Dokumendi nimi, suvaline tekst |
+| | `description` | Dokumendi kirjeldus, suvaline tekst |
+| | `filename` | Dokumendi failinimi. Kui teete rakendusse ka dokumendifailide üleslaadimise (mida ei ole nõutud), siis sellesse välja saab salvestada faili nime. Muidu tühi |
+| | `created` | Dokumendi andmebaasi sisestamise aeg |
+| | `created_by` | Viit dokumendi sisestanud sisse logitud töötajale, viit SUBJEKTIDE allsüsteemi tabelisse `employee` |
+| | `updated` | Dokumendi andmete salvestamise aeg |
+| | `updated_by` | Viit dokumendi andmeid salvestanud sisse logitud töötajale, viit SUBJEKTIDE allsüsteemi tabelisse `employee` |
+
+
+### document_doc_catalog ###
+
