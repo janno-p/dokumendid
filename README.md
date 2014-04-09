@@ -372,3 +372,30 @@ Dokumendi, kui infoobjekti, omadused:
 
 ### document_doc_catalog ###
 
+Dokumendi kataloog. Näitab, millises kataloogis dokument on.
+
+Kuigi skeem võimaldab ühte dokumenti siduda mitme dokumendi kataloogiga, võtame selles ülesandes
+eelduseks, et dokument saab korraga olla ainult ühes kataloogis.
+
+Dokumendi kataloog salvestatakse siia tabelisse dokumendi lisamisel (rakendus võiks olla tehtud nii,
+et dokumendi lisamisel on mingi kataloog alati valitud).
+
+Dokumenti peaks olema võimalik ka ühest kataloogist teise tõsta (*"cut and paste"*). Vaata selle
+kohta täpsemalt altpoolt, funktsionaalsetest nõuetest. Dokumendi tõstmisel ühest kataloogist teise
+kustutatakse vana seos tabelist `document_doc_catalog` ja lisatakse uus seos tabelisse
+`document_doc_catalog`, mis nüüd viitab juba dokumendi uuele kataloogile. Muudatustele selles
+tabelis peavad kaasnema ka muudatused dokumendi kataloogis `doc_catalog` - kui siit tabelist midagi
+kustutatakse või lisatakse, siis tuleb salvestada tabelisse `doc_catalog` selle kataloogi viimase
+muutmise aeg ja viimane muutja (sisselogitud kasutaja), sest kataloogi sisu muutus
+(`doc_catalog.updated` ja `doc_catalog.updated_by`)
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `document_doc_catalog` | Võtmeväli, sisu autonummerduv |
+| | `doc_catalog_fk` | Viit dokumendi kataloogile tabelisse `doc_catalog` |
+| | `document_fk` | Viit dokumendile tabelisse `document` |
+| | `catalog_time` | Dokumendi kataloogi lisamise aeg (aeg, millal tehti selle kirje `INSERT` lause) |
+
+
+### document_doc_type ###
+
