@@ -53,7 +53,7 @@ ka dokumendi staatuste ajaloo tabelisse ja lõpetatakse selles tabelis eelmise s
 
 ### atr_type_selection_value ###
 
-*Dokumendi atribuudi tüübi valikväärtused.*
+Dokumendi atribuudi tüübi valikväärtused.
 
 Mingi dokumendi atribuudi tüübi valikväärtused (sellel atribuudi tüübil peab `data_type=4`), mille
 hulgast kasutaja saab ekraanivormil valida atribuutidele väärtuseid. Väärtused ei ole kasutaja poolt
@@ -71,7 +71,7 @@ Antud tabelisse ei ole selles ülesandes vaja läbi rakenduse andmeid lisada. An
 
 ### data_type ###
 
-*Dokumendi atribuudi andmetüüp.*
+Dokumendi atribuudi andmetüüp.
 
 Tabelites `doc_attribute_type` ja `doc_attribute` viidatakse sellele andmetüübile.
 
@@ -90,7 +90,7 @@ Võimalikud väärtused:
 
 ### doc_attribute ###
 
-*Dokumendi tunnus/omadus/atribuut.*
+Dokumendi tunnus/omadus/atribuut.
 
 Dokumendi atribuut sisaldab väärtust, mille sisestab ekraanivormilt kasutaja ja atribuudi tüüpi
 (mida väärtus tähendab). Igal dokumendil võib süsteemis olla 0&hellip;N atribuuti. Dokumendi
@@ -130,7 +130,7 @@ Et ülesanne ei läheks liiga keeruliseks, ütleme, et kehtivad järgmised eeldu
 
 ### doc_attribute_type ###
 
-*Dokumendi atribuudi tüüp.*
+Dokumendi atribuudi tüüp.
 
 Dokumentidel võib süsteemis olla erinevaid atribuute. Atribuutidel on tüübid. Tüüp määrab, mis on
 selle atribuudi tähendus ja mis informatsiooni antud tüüpi atribuut hoiab. Millised atribuudid on
@@ -157,7 +157,7 @@ Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, 
 
 ### doc_catalog ###
 
-*Dokumendi kataloog.*
+Dokumendi kataloog.
 
 Selles tabelis hoitakse dokumendi kataloogide hierarhiat ("puud"). Kõige ülemisel tasemel `level=1`
 ja `upper_catalog_fk=0`.
@@ -206,7 +206,7 @@ Sellesse tabelisse ei ole antud ülesandes vaja läbi rakenduse andmeid lisada, 
 
 ### doc_catalog_type ###
 
-*Dokumendi kataloogi tüüp*
+Dokumendi kataloogi tüüp.
 
 Ei ole selles ülesandes kasutusel
 
@@ -254,6 +254,41 @@ Dokumendi seisundi tüüp.
 ### doc_subject ###
 
 Dokumendi seos ettevõtte või isikuga SUBJEKTIDE allsüsteemist.
+
+Dokumendiga peab olema võimalik siduda ettevõtteid ja isikuid. Selleks, et siduda, tuleb need isikud
+või ettevõtted subjektide andmebaasist välja otsida. Otsinguvorm võib olla väga lihtne - otsitakse
+ainult ühe andmevälja järgi.
+
+Selline nime järgi otsing tähendab, et otsitakse ettevõtete hulgast selliseid, millel "name" on
+selline nagu otsinguvormil ja isikute hulgast selliseid, kelle `last_name` on selline nagu
+otsinguvormil.
+
+Kui andmebaasist on isik või ettevõte leitud, siis peaks saama teda seostada dokumendiga.
+Seostamisel sisestatakse kirje tabelisse `doc_subject`. Seosed peab saama ka kustutada.
+
+Seosel on mingi tähendus - roll. Seda rolli saab seose loomisel määrata. Rollid on tabelis
+`doc_subject_relation_type`.
+
+Olemasolevate seoste muutmise võimalust pole vaja teha (ainus asi, mis seal muuta saaks oleks seose
+roll ja välja `note` sisu. Aga pole vaja seda muuta.)
+
+Kui seos lisatakse tabelisse `doc_subject`, peab rakendus kirje välja `doc_subject_type_fk` panema
+väärtuseks 1 või 2 - sõltuvalt sellest, kas valitud subjekt oli ettevõte `enterprise` või isik
+`person`.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_subject` | Võtmeväli, sisu autonummerduv |
+| | `doc_subject_relation_type_fk` | Viit dokumendi ja subjekti vahelise seose tüübile tabelisse `doc_subject_relation_type` |
+| | `doc_subject_type_fk` | Viit subjekti tüübile (kas isik või ettevõte) tabelisse `doc_subject_type` |
+| | `subject_fk` | Viit subjektidele SUBJEKTIDE allsüsteemi tabelisse `person` või `enterprise` (kummale tabelile viidatakse, see sõltub subjekti tüübist väljas `doc_subject_type_fk`) |
+| | `document_fk` | Viit dokumendile, mis on subjektiga seotud, viit tabelisse `document` |
+| | `note` | Märkus - mingi suvaline tekst selle seose kohta |
+
+
+### doc_subject_relation_type ###
+
+Dokumendi ja subjekti vahelise seose tüüp.
 
 
 ## Vana ##
