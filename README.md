@@ -326,3 +326,24 @@ vormil dokumendi tüüpi.
 | | `type_name` | Dokumendi tüübi nimi |
 | | `level` | Dokumendi tüübi tase (`level=1` - ülemtüüp, `level=2` - mingi ülemtüübi alamtüüp) |
 | | `super_type_fk` | Viit ülemtüübile samasse tabelisse `doc_type`. Kui `level=1`, siis väärtuseks 0 |
+
+
+### doc_type_attribute ###
+
+Dokumendi tüübi atribuut (atribuudi tüüp), seosetabel. Näitab, millised atribuudi tüübid on seotud
+millise dokumendi tüübiga. Kui rakendus sisestab tabelisse `document` uue dokumendi, siis peab
+rakendus sellest tabelist lugema, millised atribuudi tüübid sellisel dokumendi tüübil on ja
+sisestama vastava arvu kirjeid tabelisse `doc_attribute`.
+
+| PK | Andmeväli | Kirjeldus |
+| --- | --- | --- |
+| &#10004; | `doc_type_attribute` | Võtmeväli, sisu on autonummerduv |
+| | `doc_attribute_type_fk` | Viit dokumendi atribuudi tüübile tabelisse `doc_attribute_type` |
+| | `doc_type_fk` | Viit dokumendi tüübile tabelisse `doc_type` |
+| | `orderby` | Dokumendi atribuudi järjestus ekraanivormil. Selle välja sisu kopeeritakse tabelisse `doc_attribute.orderby`, kui seda tüüpi dokumendi atribuut andmebaasi lisatakse |
+| | `required` | Kas seda tüüpi atribuudi väärtus peab kindlasti olema täidetud (selle dokumendi tüübi puhul). Selle välja sisu kopeeritakse tabelisse `doc_attribute.required` kui seda tüüpi dokumendi atribuut andmebaasi lisatakse |
+| | `created_by_default` | Alati 'Y'. Sisuliselt ei ole selles ülesandes kasutuses |
+
+
+### document ###
+
