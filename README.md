@@ -723,10 +723,107 @@ Dokumendi seoseid subjektidega peab saama kustutada.
 Dokumendi seoste andmete muutmist pole vaja teha.
 
 
-#### Dokumentide otsing ####
+#### Dokumentide otsing
 
 Dokumentide otsinguvormil on kaks võimalikku olekut:
 
 1. siis kui mingi dokumendi tüüp (mille seast otsida) on valimata
 2. siis kui dokumendi tüüp on valitud
 
+**Dokumendi tüüp valimata:**
+
+Otsida tuleks:
+
+* dokumendi (andmebaasi) id järgi
+* dokumendi nime järgi
+* dokumendi kirjelduse järgi
+* viimase muutja perekonnanime järgi (`employee` -> `person.last_name`)
+* kataloogi nime järgi, kus dokument asub
+* dokumentidega seotud subjektide nime järgi (`enterprise.name`, `person.last_name`)
+* dokumendi staatuse järgi
+* dokumendi atribuudi väärtuste järgi. Kuna atribuudi tüüpi pole siin otsinguvormil määratud, siis
+  tuleks vaadata kõikide selle dokumendiga seotud atribuudi andmetesse, väljadesse `value_text`,
+  `value_number` ja `value_date`. Millisest atribuudi väärtuse väljadest otsime, see sõltub nüüd
+  mõnevõrra ka sisestatud atribuudi väärtusest - kui sisestatud on "Tallinn", siis ei ole ilmselt
+  mõtet vaadata atribuute, mille sisu on number-tüüpi.
+
+**NB!** Kui selle päringu atribuutide osa ja eriti erinevatel juhtudel erinevatest atribuudi
+andmeväljadest otsimine tundub teile keeruline, siis tehke lihtsamalt - otsige ainult `value_text`
+väljast. Te võite atribuudi andmete salvestamisel `value_number` ja `value_date` väljade sisu alati
+dubleerida ka `value_text` välja ja nii saate te otsinguga sellest tabelist andmeid kätte kui
+vaatate alati ainult `value_text` välja sisse. Aga siis peate mõnevõrra täiendama atribuudi andmete
+salvestamist.
+
+**Dokumendi tüüp valitud:**
+
+&hellip;
+
+#### Dokumentide tõstmine puhvrisse ja puhvrist liigutamine uude kataloogi (*cut and paste*)
+
+&hellip;
+
+
+#### Dokumendifailide üles- ja allalaadimine veebilehitsejas
+
+Dokumendifailide üleslaadimist ei ole selles rakenduses vaja teha. Kui selle siiski lisate
+rakendusse (nii, et saab dokumendifaili veebilehitsejast üles laadida ja seda faili pärast alla
+tõmmata) saate kindlasti *mitteformaalseid* plusspunkte. Aga tegeleda selle teemaga oleks mõtet
+(kui üldse) alles siis, kui kõik ülejäänud osad on tehtud.
+
+
+#### Töötaja autentimine (sisse- ja väljalogimine)
+
+Rakendust saab kasutada peale sisselogimist. Kasutajanime ja parooli kontrollimiseks
+(autentimispäring) kasutatakse andmeid SUBJEKTID allsüsteemi tabelist `user_account`.
+
+Kõik ülesande variandid kasutavad sisselogimiseks tabelite `employee` ja `user_account` andmeid. Kui
+kasutaja sisestab kasutajanime ja parooli, siis otsitakse seda kasutajanime ja parooli tabelist
+`user_account` ja kui leitakse, siis leitakse ka sellele kasutajakontole vastava `employee`
+identifikaator (`user_account.employee_fk`). Sisselogimisel leitud viidet `employee` tabeli kirjele
+kasutatakse vajadusel rakenduses `created_by` ja `updated_by` väljade täitmiseks.
+
+Üldiselt on soovitatav parooli väljas `passw` hoida paroole krüpteeritult (nt. MD5).
+
+```SQL
+/* tootaja kasutajanimega 'marten' logib systeemi sisse */
+SELECT  E.employee, UA.user_account, P.first_name, P.last_name
+  FROM  employee E
+        INNER JOIN  user_account UA
+                ON  E.employee = UA.subject_fk
+        INNER JOIN  person P
+                ON  E.person_fk = P.person
+ WHERE      UA.subject_type_fk = 3
+        AND UA.username = 'marten'
+        AND UA.passw = '37b4931088193a73b6561bae19bf06d9';
+```
+
+Rakenduses peab olema tehtud ka väljalogimine.
+
+
+### Ärireeglid ja andmete kontrollid (10 reeglit)
+
+Praktikaülesande üldistes nõuetes on kirjas, et tuleb rakendusse teha ka *validaator* tüüpi objektid
+(klassid), mis kontrollivad sisendandmete õigsust. Millised need reeglid on, millele andmed peavad
+vastama - need mõelge ise välja.
+
+Mõelge välja vähemalt 10 reeglit, millele sisendandmed peavad vastama ja kontrollige rakenduses neid
+reegleid (kui kasutajad andmeid sisestavad või muudavad) ning andke kasutajale ekraanivormidel teada
+kui sisend-andmed neid kontrolli reegleid ei rahulda. Mõned reeglid on selle praktikatöö juhendis
+erinevates kohtades ka juba toodud, neid võib ka 10 hulka arvestada.
+
+Näiteks:
+
+* millised väljad ei tohi olla tühjad
+* milliseid andmeid ei tohi kustutada kuna nendele andmetele viidatakse teistes tabelites
+* millised summad või kuupäevad peavad jääma teatud piiridesse
+* millal võib tellimusele teha arvet
+* millal võib tellimust kustutada
+* &hellip;
+
+
+## Mida teha siis, kui mingi osa ülesande funktsionaalsusest tundub ebaselge
+
+Kui midagi jääb ebaselgeks või midagi ei ole täpselt kirjeldatud, siis võib alati harjutustunnis
+küsida, aga võib ka ise otsustada ebaselgetes situatsioonides, kuidas rakendus peaks toimima.
+Ilmselt on mõistlik otsustada nii, et peaks vähem programmeerima, et rakenduse toimimine oleks
+lihtsam.
