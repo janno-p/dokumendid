@@ -756,7 +756,49 @@ salvestamist.
 
 **Dokumendi tüüp valitud:**
 
-&hellip;
+Kui otsinguvormil on dokumendi tüüp valitud, siis otsinguvormi atribuutide osa muutub - nüüd on
+teada, mis tüüpi atribuudid antud tüüpi dokumendil on ja saab nende atribuutide järgi ka otsingut
+teha.
+
+Muu otsinguloogika jääb samaks, mis dokumendi tüübita otsingu puhul. Atribuutide tabelis
+`doc_attribute` andmete otsimise loogika aga muutub täpsemaks:
+
+Tekstiotsinguid sisaldavad päringud peaksid üldjuhul olema tõstutundetud, mis tähendab, et
+PostgreSQL-i `SELECT` lauseid tuleb täiendada `UPPER()` või `LOWER()` funktsioonidega, kuna
+vaikimisi on PostgreSQL-i `LIKE` päring tõstutundlik. PostgreSQL-i täistekstipäring (*full-text
+search*) ei ole tõstutundlik.
+
+**Kui kataloogipuust on dokumendi kataloog valitud:**
+
+Siis võiks otsing vaikimisi toimuda selle valitud dokumendi kataloogi dokumentide hulgast - kui
+otsinguvormi väli "kataloogi nimi" on täitmata.
+
+Kataloogipuus peaks olema võimalik vajutada mingile juurharule (`/root`), mis tühistaks kataloogi
+valiku kasutajaliidesel - siis saaksid otsingud toimuda üle kõikide kataloogide (see tähendab,
+sellisel juhul, et kataloogi arvestatakse ainult siis, kui kasutaja täidab "kataloogi nimi" välja,
+jooksvat kataloogi ei ole valitud).
+
+**Kuidas otsida:**
+
+Kui tegemist on selliste tekstiväljadega, mis sisaldavad ühte stringi (dokumendikataloogi nimi,
+toote kood, kliendi nimi, &hellip;), siis võiks otsida sõna alguse järgi `LIKE`-tüüpi päringuga.
+Kuna PostgreSQL-i `LIKE`-otsing on vaikimisi tõstutundlik (*case-sensitive*), siis on mõistlik
+`WHERE`-klausli mõlemad pooled näiteks `UPPER()`-funktsiooniga teisendada. Tekstiotsingus me
+tavaliselt ei taha tõstutundlikkust.
+
+Kui tegemist on selliste tekstiväljadega, mis sisaldavad pikemat teksti (mitu sõna), siis võiks
+otsida täistekstiotsinguga, mis tähendab, et otsitakse, kas otsitavad sõnad sisalduvad väljas.
+Näiteks aadressid, märkused, tegevusalad vms.
+
+Kui tegemist on kuupäevade ja numbritega (summad, aastaarvud), mille puhul on mõistlik otsingul ette
+anda vahemik, siis võiks seda teha (kuid kohustust nii teha ei ole).
+
+**Otsinguvormil sisestatud andmete säilitamine pärast otsingu nupule vajutamist:**
+
+Otsinguvormile sisestatud andmed peaksid olema sellel otsinguvormil alles ka pärast nupule "Otsi"
+vajutamist (pärast veebilehe ümberlaadimist). Otsinguvorm ise võiks ka muidugi ekraanile alles
+jääda, et uue otsingu tegemiseks ei (?)
+
 
 #### Dokumentide tõstmine puhvrisse ja puhvrist liigutamine uude kataloogi (*cut and paste*)
 
