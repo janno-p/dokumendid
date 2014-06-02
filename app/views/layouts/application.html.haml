@@ -19,7 +19,7 @@
 
 
   %body
-    .navbar.navbar-static-top
+    .navbar.navbar-default.navbar-static-top
       .container
         %button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse")
           %span.icon-bar
@@ -35,9 +35,6 @@
 
     .container
       .row
-        .col-lg-9
-          = bootstrap_flash
-          = yield
         .col-lg-3
           .well.sidebar-nav
             %h3 Sidebar
@@ -46,5 +43,7 @@
               %li= link_to "Link 1", "/path1"
               %li= link_to "Link 2", "/path2"
               %li= link_to "Link 3", "/path3"
+        .col-lg-9
+          = yield
       %footer
-        %p &copy; Company 2014
+        %p &copy; Janno Põldma 2014
