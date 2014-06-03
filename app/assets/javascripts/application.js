@@ -24,5 +24,6 @@
 //= require bootstrap/scrollspy
 //= require bootstrap/tab
 //= require bootstrap/transition
+//= require jquery.ztree.core-3.5.js
 //= require turbolinks
 //= require_tree .

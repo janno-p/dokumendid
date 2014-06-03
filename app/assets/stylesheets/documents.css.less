@@ -1,0 +1,24 @@
+// Place all the styles related to the documents controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
+.ztree li ul.level0 {padding:0; background:none;}
+
+ul.document-list, ul.document-list ul {
+  list-style-type: none;
+  padding-left: 20px;
+  li {
+    white-space: nowrap;
+  }
+  li:before {
+    font-family: 'FontAwesome';
+    content: '\f114';
+    margin:0 2px 0 -25px;
+//    color: #f00;
+  }
+}
+
+.sidebar-nav {
+  overflow-x: hidden;
+}

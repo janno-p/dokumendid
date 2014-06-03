@@ -1,1 +1,9 @@
-%h1 Hello, World!
+- content_for :sidebar do
+  = render "sidebar"
+
+%ol.breadcrumb
+  = render partial: "current_catalog", locals: { is_first: true, item: @current_catalog }
+
+%h1
+  Hello, World!
+  %i.fa.fa-folder-o

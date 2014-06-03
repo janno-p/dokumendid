@@ -1,0 +1,11 @@
+- if item.nil?
+  - if is_first
+    %li.active DOKUMENDID
+  - else
+    %li= link_to "DOKUMENDID", "#"
+- else
+  = render partial: "current_catalog", locals: { is_first: false, item: item.doc_catalog }
+  - if is_first
+    %li.active item.name
+  - else
+    %li= link_to item.name, "#"

@@ -7,6 +7,7 @@ gem 'rails', '4.1.1'
 gem 'less-rails', '2.5.0'
 gem 'haml-rails', '0.5.3'
 gem 'bootstrap-on-rails', '0.0.2'
+gem 'font-awesome-less', '4.0.2'
 gem 'pg', '0.17.1'
 
 gem 'sass-rails', '4.0.3'
