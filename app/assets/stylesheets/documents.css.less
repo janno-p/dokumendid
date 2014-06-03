@@ -17,6 +17,13 @@ ul.document-list, ul.document-list ul {
     margin:0 2px 0 -25px;
 //    color: #f00;
   }
+  li.active {
+    font-weight: bold;
+    &:before {
+      font-weight: normal;
+      content: '\f061';
+    }
+  }
 }
 
 .sidebar-nav {

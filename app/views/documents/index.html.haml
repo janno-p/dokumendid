@@ -4,6 +4,26 @@
 %ol.breadcrumb
   = render partial: "current_catalog", locals: { is_first: true, item: @current_catalog }
 
-%h1
-  Hello, World!
-  %i.fa.fa-folder-o
+- if @current_catalog.documents.any?
+  %table.table.table-hover.table-condensed
+    %thead
+      %tr
+        %th
+          %i.fa.fa-cut{:title => "Vali liigutamiseks"}
+        %th Number
+        %th Dokumendi nimi
+        %th &nbsp;
+    %tbody
+      - @current_catalog.documents.each do |document|
+        %tr
+          %td
+            %input{:type => "checkbox"}
+          %td= document.doc_nr || "-"
+          %td
+            %a(href="#")= document.name
+          %td.text-right
+            %a.btn.btn-danger.btn-xs{:type => "button" }
+              %i.fa.fa-trash-o
+              Kustuta
+- else
+  .alert.alert-success Valitud kataloogis hetkel failid puuduvad.
