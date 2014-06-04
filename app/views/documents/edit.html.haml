@@ -2,6 +2,14 @@
 
 = form_for(@document, url: catalog_documents_url(@current_catalog, @document), html: {class: "form-horizontal"}) do |f|
   .form-group
-    = label_tag :doc_type, "Dokumendi tüüp: ", class: "col-sm-3 control-label"
+    = label_tag :doc_type, "Tüüp: ", class: "col-sm-2 control-label"
     .col-sm-5
       = text_field_tag :doc_type, @document.doc_type.type_name, class: "form-control", readonly: "readonly"
+  .form-group
+    = f.label :name, "Nimetus: ", class: "col-sm-2 control-label"
+    .col-sm-5
+      = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :description, "Kirjeldus: ", class: "col-sm-2 control-label"
+    .col-sm-5
+      = f.text_field :description, class: "form-control"
