@@ -4,4 +4,7 @@ class Document < ActiveRecord::Base
 
   has_one :document_doc_catalog, foreign_key: "document_fk"
   has_one :doc_catalog, through: :document_doc_catalog
+
+  has_one :document_doc_type, foreign_key: "document_fk"
+  has_one :doc_type, through: :document_doc_type
 end

@@ -11,6 +11,7 @@ class DocumentsController < ApplicationController
       @root = DocCatalog.root
       @document = Document.new
       @current_catalog = params[:catalog_id].to_i == 0 ? @root : DocCatalog.find(params[:catalog_id])
+      @document_types = DocType.joins(:doc_types).where('"doc_type"."level" = 1').uniq.all
     end
   end
 
@@ -18,5 +19,6 @@ class DocumentsController < ApplicationController
     @root = DocCatalog.root
     @document = Document.find(params[:id])
     @current_catalog = @document.doc_catalog
+    @document_types = DocType.joins(:doc_types).where('"doc_type"."level" = 1').uniq.all
   end
 end

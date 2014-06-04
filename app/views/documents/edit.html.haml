@@ -1,1 +1,7 @@
-%p.text-muted Dokumendi muutmine
+%h3 Dokumendi muutmine
+
+= form_for(@document, url: catalog_documents_url(@current_catalog, @document), html: {class: "form-horizontal"}) do |f|
+  .form-group
+    = label_tag :doc_type, "Dokumendi tüüp: ", class: "col-sm-3 control-label"
+    .col-sm-5
+      = text_field_tag :doc_type, @document.doc_type.type_name, class: "form-control", readonly: "readonly"
