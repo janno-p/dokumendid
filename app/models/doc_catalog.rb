@@ -7,4 +7,12 @@ class DocCatalog < ActiveRecord::Base
 
   has_many :document_doc_catalogs, foreign_key: "doc_catalog_fk"
   has_many :documents, through: :document_doc_catalogs
+
+  def self.root
+    self.new do |catalog|
+      catalog.id = 0
+      catalog.name = "DOKUMENDID"
+      catalog.doc_catalogs = self.where("upper_catalog_fk = ?", 0)
+    end
+  end
 end

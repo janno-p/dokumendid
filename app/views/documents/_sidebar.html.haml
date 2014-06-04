@@ -1,5 +1,4 @@
-.well.sidebar-nav
-  %ul.document-list
-    %li
-      = link_to "DOKUMENDID", "#"
-      = render partial: "catalog", collection: @catalogs
+%ul{:class => ("document-list" if catalog == @root)}
+  %li{:class => ("active" if catalog == @current_catalog)}
+    = link_to catalog.name, catalog_documents_path(catalog)
+    = render partial: "sidebar", collection: catalog.doc_catalogs, as: :catalog

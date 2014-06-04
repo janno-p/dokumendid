@@ -1,0 +1,27 @@
+- content_for :sidebar do
+  .well.sidebar-nav
+    = render "sidebar", catalog: @root
+
+- content_for :breadcrumbs do
+  %ol.breadcrumb
+    = render partial: "current_catalog", locals: { is_first: true, item: @current_catalog }
+    - if @document.nil? and @current_catalog != @root
+      %span.pull-right
+        .btn-group
+          %a.btn.btn-primary.btn-xs.dropdown-toggle(data-toggle="dropdown")
+            %i.fa.fa-clipboard
+            Puhver
+            %span.caret
+          %ul.dropdown-menu.pull-right
+            %li
+              %a(href="#")
+                %i.fa.fa-fw.fa-download
+                Aseta kausta
+              %a(href="#")
+                %i.fa.fa-fw.fa-list
+                Vaata valitud faile
+        = link_to new_catalog_document_path(@current_catalog), {class: "btn btn-success btn-xs"} do
+          %i.fa.fa-file-text-o
+          Lisa uus dokument
+
+= render template: "layouts/application"
