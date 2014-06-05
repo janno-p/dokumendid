@@ -7,4 +7,6 @@ class Document < ActiveRecord::Base
 
   has_one :document_doc_type, foreign_key: "document_fk"
   has_one :doc_type, through: :document_doc_type
+
+  has_many :doc_attributes, foreign_key: "document_fk"
 end
