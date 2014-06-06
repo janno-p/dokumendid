@@ -1,18 +1,39 @@
+- content_for :head do
+  :javascript
+    $(document).ready(function () {
+      var $doc_type = $("#document_doc_type");
+      function updateItems() {
+        var value = $doc_type.find("option:selected").val()
+        if (value) {
+          $doc_type.find("option[value='']").remove();
+          $.ajax({ url: "/documents/attributes/" + value, dataType: "script" });
+        }
+      }
+      updateItems();
+      $doc_type.change(function () {
+        updateItems();
+      });
+    });
+
 %h3 Uue dokumendi lisamine
 
 = form_for(@document, url: catalog_documents_url(@current_catalog, @document), html: {class: "form-horizontal"}) do |f|
   .form-group
-    = f.label :doc_type, "Tüüp: ", class: "col-sm-2 control-label"
+    = f.label :doc_type, "Tüüp: ", class: "col-sm-3 control-label"
     .col-sm-5
-      = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :doc_type, :type_name, {}, class: "form-control"
+      - if @document.doc_attributes.any?
+        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, class: "form-control"
+      - else
+        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, {prompt: "Vali dokumendi tüüp ..."}, class: "form-control"
   .form-group
-    = f.label :name, "Nimetus: ", class: "col-sm-2 control-label"
+    = f.label :name, "Nimetus: ", class: "col-sm-3 control-label"
     .col-sm-5
       = f.text_field :name, class: "form-control"
   .form-group
-    = f.label :description, "Kirjeldus: ", class: "col-sm-2 control-label"
+    = f.label :description, "Kirjeldus: ", class: "col-sm-3 control-label"
     .col-sm-5
-      = f.text_field :description, class: "form-control"
-  %h3
-    %small Dokumendi atribuudid
-
+      = f.text_area :description, rows: 3, class: "form-control"
+  .form-group
+    .col-sm-offset-3.col-sm-5
+      %button.btn.btn-primary(type="submit") Salvesta
+      = link_to "Tühista", catalog_documents_path(@current_catalog), class: "btn btn-default"

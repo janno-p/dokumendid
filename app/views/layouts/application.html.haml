@@ -17,6 +17,8 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application"
 
+    = yield :head
+
 
   %body
     .navbar.navbar-default.navbar-static-top
@@ -43,4 +45,4 @@
           = yield(:breadcrumbs)
           = yield
       %footer
-        %p &copy; Janno Põldma 2014
+        %p &copy; Something 2014

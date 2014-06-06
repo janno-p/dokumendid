@@ -21,4 +21,12 @@ class DocumentsController < ApplicationController
     @current_catalog = @document.doc_catalog
     @document_types = DocType.joins(:doc_types).where('"doc_type"."level" = 1').uniq.all
   end
+
+  def attributes
+    if request.xhr?
+      @doc_type = DocType.find(params[:id])
+    else
+      not_found
+    end
+  end
 end

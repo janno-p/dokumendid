@@ -7,6 +7,8 @@ class DocType < ActiveRecord::Base
   has_many :doc_types, foreign_key: "super_type_fk"
   belongs_to :doc_type, foreign_key: "super_type_fk"
 
+  has_many :doc_type_attributes, foreign_key: "doc_type_fk"
+
   def readonly?
     true
   end

@@ -6,4 +6,6 @@ Dokumendid::Application.routes.draw do
   end
 
   resources :documents, only: [:show, :edit, :update, :destroy]
+
+  get "documents/attributes/:id", to: "documents#attributes"
 end
