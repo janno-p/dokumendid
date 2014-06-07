@@ -2,15 +2,15 @@ class UserAccount < ActiveRecord::Base
   self.table_name = "user_account"
   self.primary_key = "user_account"
 
+  belongs_to :employee, foreign_key: "subject_fk"
+
   def readonly?
     true
   end
 
   def self.authenticate(name, password)
-    user = self.find_by_username(name)
-    return nil unless user
     expected_password = encrypted_password(password)
-    return nil unless user.passw == expected_password
+    user = self.where("subject_type_fk = ? and username = ? and passw = ?", 3, name, expected_password).first
     user
   end
 
