@@ -24,7 +24,7 @@ module DocumentsHelper
   end
 
   def doc_attribute_label(attribute, name)
-    label_tag name, class: "col-sm-3 control-label" do
+    label_tag name, class: "col-sm-2 control-label input-sm" do
       "#{attribute.doc_attribute_type.type_name.capitalize}: "
     end
   end
@@ -33,7 +33,7 @@ module DocumentsHelper
     doc_attribute_control attribute do |name|
       value = attribute[property]
       placeholder = doc_attribute_placeholder_for property
-      concat text_field_tag(name, value, class: "form-control", placeholder: placeholder)
+      concat text_field_tag(name, value, class: "form-control input-sm", placeholder: placeholder)
     end
   end
 
@@ -41,7 +41,7 @@ module DocumentsHelper
     doc_attribute_control attribute do |name|
       collection = attribute.doc_attribute_type.atr_type_selection_values
       options = options_from_collection_for_select(collection, :atr_type_selection_value, :value_text, attribute[property])
-      select_tag name, options, include_blank: true, class: "form-control"
+      select_tag name, options, include_blank: true, class: "form-control input-sm"
     end
   end
 

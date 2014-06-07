@@ -2,23 +2,27 @@
 
 = form_for(@document, url: document_path(@document), html: {class: "form-horizontal"}) do |f|
   .form-group
-    = label_tag :doc_type, "Tüüp: ", class: "col-sm-3 control-label"
+    = label_tag :doc_type, "Tüüp: ", class: "col-sm-2 control-label input-sm"
     .col-sm-5
-      = text_field_tag :doc_type, @document.doc_type.type_name, class: "form-control", readonly: "readonly"
+      = text_field_tag :doc_type, @document.doc_type.type_name, class: "form-control input-sm", readonly: "readonly"
   .form-group
-    = f.label :name, "Nimetus: ", class: "col-sm-3 control-label"
+    = f.label :name, "Nimetus: ", class: "col-sm-2 control-label input-sm"
     .col-sm-5
-      = f.text_field :name, class: "form-control"
+      = f.text_field :name, class: "form-control input-sm"
   .form-group
-    = f.label :description, "Kirjeldus: ", class: "col-sm-3 control-label"
+    = f.label :description, "Kirjeldus: ", class: "col-sm-2 control-label input-sm"
     .col-sm-5
-      = f.text_area :description, rows: 3, class: "form-control"
+      = f.text_area :description, rows: 3, class: "form-control input-sm"
+  .form-group
+    = f.label :doc_status_type_fk, "Staatus: ", class: "col-sm-2 control-label input-sm"
+    .col-sm-5
+      = f.collection_select :doc_status_type_fk, @doc_status_types, :doc_status_type, :type_name, {include_blank: true}, class: "form-control input-sm"
   - if @document.doc_attributes.any?
     %h3
       %small Dokumendi atribuudid
     - @document.doc_attributes.each do |attribute|
       = document_attribute attribute
   .form-group
-    .col-sm-offset-3.col-sm-5
-      %button.btn.btn-primary(type="submit") Salvesta
-      = link_to "Tühista", catalog_documents_path(@current_catalog), class: "btn btn-default"
+    .col-sm-offset-2.col-sm-5
+      %button.btn.btn-primary.btn-sm(type="submit") Salvesta
+      = link_to "Tühista", catalog_documents_path(@current_catalog), class: "btn btn-default btn-sm"

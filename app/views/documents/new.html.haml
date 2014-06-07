@@ -15,25 +15,29 @@
       });
     });
 
-%h3 Uue dokumendi lisamine
+%h4 Uue dokumendi lisamine
 
 = form_for(@document, url: catalog_documents_url(@current_catalog, @document), html: {class: "form-horizontal"}) do |f|
   .form-group
-    = f.label :doc_type, "Tüüp: ", class: "col-sm-3 control-label"
+    = f.label :doc_type, "Tüüp: ", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       - if @document.doc_attributes.any?
-        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, class: "form-control"
+        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, class: "form-control input-sm"
       - else
-        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, {prompt: "Vali dokumendi tüüp ..."}, class: "form-control"
+        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, {prompt: "Vali dokumendi tüüp ..."}, class: "form-control input-sm"
   .form-group
-    = f.label :name, "Nimetus: ", class: "col-sm-3 control-label"
+    = f.label :name, "Nimetus: ", class: "col-sm-2 control-label input-sm"
     .col-sm-5
-      = f.text_field :name, class: "form-control"
+      = f.text_field :name, class: "form-control input-sm"
   .form-group
-    = f.label :description, "Kirjeldus: ", class: "col-sm-3 control-label"
+    = f.label :description, "Kirjeldus: ", class: "col-sm-2 control-label input-sm"
     .col-sm-5
-      = f.text_area :description, rows: 3, class: "form-control"
+      = f.text_area :description, rows: 3, class: "form-control input-sm"
   .form-group
-    .col-sm-offset-3.col-sm-5
-      %button.btn.btn-primary(type="submit") Salvesta
-      = link_to "Tühista", catalog_documents_path(@current_catalog), class: "btn btn-default"
+    = f.label :doc_status_type, "Staatus: ", class: "col-sm-2 control-label input-sm"
+    .col-sm-5
+      = f.collection_select :doc_status_type, @doc_status_types, :doc_status_type, :type_name, {include_blank: true}, class: "form-control input-sm"
+  .form-group
+    .col-sm-offset-2.col-sm-5
+      %button.btn.btn-primary.btn-sm(type="submit") Salvesta
+      = link_to "Tühista", catalog_documents_path(@current_catalog), class: "btn btn-default btn-sm"
