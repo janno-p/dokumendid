@@ -8,4 +8,9 @@ Dokumendid::Application.routes.draw do
   resources :documents, only: [:show, :edit, :update, :destroy]
 
   get "documents/attributes/:id", to: "documents#attributes"
+
+  get "sign_in", to: "session#sign_in"
+  post "sign_in", to: "session#sign_in"
+
+  get "sign_out", to: "session#sign_out"
 end

@@ -1,0 +1,19 @@
+-if flash[:notice]
+  .alert.alert-danger.alert-dismissable
+    %button.close{:type => "button", :"data-dismiss" => "alert", :"aria-hidden" => "true"} &times;
+    = flash[:notice]
+
+%h1 Sisselogimine
+
+= form_tag sign_in_path, class: "form-horizontal" do
+  .form-group
+    = label_tag :username, "Kasutajanimi: ", class: "col-sm-3 control-label"
+    .col-sm-5
+      = text_field_tag :username, @username, class: "form-control"
+  .form-group
+    = label_tag :password, "Salasõna: ", class: "col-sm-3 control-label"
+    .col-sm-5
+      = password_field_tag :password, nil, class: "form-control"
+  .form-group
+    .col-sm-offset-3.col-sm-5
+      = button_tag "Logi sisse", type: :submit, class: "btn btn-primary"

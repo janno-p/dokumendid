@@ -4,10 +4,10 @@ ruby '2.1.0'
 
 gem 'rails', '4.1.1'
 
-gem 'less-rails', '2.5.0'
+gem 'less-rails', '2.4.2'
 gem 'haml-rails', '0.5.3'
 gem 'bootstrap-on-rails', '0.0.2'
-gem 'font-awesome-less', '4.0.2'
+gem 'font-awesome-less', '4.1.0'
 gem 'pg', '0.17.1'
 
 gem 'sass-rails', '4.0.3'
@@ -16,8 +16,6 @@ gem 'coffee-rails', '4.0.1'
 gem 'therubyracer', '0.12.1'
 
 gem 'jquery-rails', '3.1.0'
-gem 'jquery-turbolinks', '2.0.2'
-gem 'turbolinks', '2.2.2'
 gem 'jbuilder', '2.0.7'
 
 group :doc do

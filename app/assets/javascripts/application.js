@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap/affix
 //= require bootstrap/alert
@@ -26,5 +25,4 @@
 //= require bootstrap/tab
 //= require bootstrap/transition
 //= require jquery.ztree.core-3.5.js
-//= require turbolinks
 //= require_tree .
