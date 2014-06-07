@@ -13,7 +13,7 @@
     = f.label :description, "Kirjeldus", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       = f.text_area :description, rows: 3, class: "form-control input-sm"
-  .form-group
+  .form-group.required
     = f.label :doc_status_type_fk, "Staatus", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       = f.collection_select :doc_status_type_fk, @doc_status_types, :doc_status_type, :type_name, {include_blank: true}, class: "form-control input-sm"

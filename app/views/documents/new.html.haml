@@ -9,7 +9,9 @@
           $.ajax({ url: "/documents/attributes/" + value, dataType: "script" });
         }
       }
-      updateItems();
+      if ($("div#attributes").length == 0) {
+        updateItems();
+      }
       $doc_type.change(function () {
         updateItems();
       });
@@ -17,26 +19,24 @@
 
 %h4 Uue dokumendi lisamine
 
-= form_for(@document, url: catalog_documents_url(@current_catalog, @document), html: {class: "form-horizontal"}) do |f|
-  .form-group.required
-    = f.label :doc_type, "Tüüp", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      - if @document.doc_attributes.any?
-        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, class: "form-control input-sm"
-      - else
-        = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, {prompt: "Vali dokumendi tüüp ..."}, class: "form-control input-sm"
-  .form-group.required
-    = f.label :name, "Nimetus", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = f.text_field :name, class: "form-control input-sm"
-  .form-group
-    = f.label :description, "Kirjeldus", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = f.text_area :description, rows: 3, class: "form-control input-sm"
-  .form-group
-    = f.label :doc_status_type, "Staatus", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = f.collection_select :doc_status_type, @doc_status_types, :doc_status_type, :type_name, {include_blank: true}, class: "form-control input-sm"
+- if @document.errors.any?
+  .alert.alert-danger
+    %p
+      %small
+        %strong Lisatava dokumendi andmed on puudulikud!
+        Palun paranda allpool välja toodud vead.
+
+= form_tag catalog_documents_url(@current_catalog, @document), class: "form-horizontal" do
+  = bs_grouped_select :document, :doc_type, "Tüüp", @document_types, @document.doc_type, required: true, key: :id, value: :type_name, group: :doc_types, label: :type_name
+  = bs_text_field :document, :name, "Nimetus", @document.name, required: true
+  = bs_text_area :document, :description, "Kirjeldus", @document.description
+  = bs_select :document, :doc_status_type, "Staatus", @doc_status_types, @document.doc_status_type, required: true, key: :doc_status_type, value: :type_name
+  - if @document.doc_attributes.any?
+    #attributes
+      %h3
+        %small Dokumendi atribuudid
+      - @document.doc_attributes.each do |attribute|
+        = document_attribute attribute
   .form-group
     .col-sm-offset-2.col-sm-5
       %button.btn.btn-primary.btn-sm(type="submit") Salvesta
