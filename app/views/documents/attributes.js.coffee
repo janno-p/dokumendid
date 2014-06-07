@@ -9,6 +9,6 @@ existing.empty()
 <% if @doc_type.doc_type_attributes.any? %>
 existing.append $("<h3><small>Dokumendi atribuudid</small></h3>")
 <% @doc_type.doc_type_attributes.each do |attribute| %>
-existing.append '<%= document_attribute(attribute, :doc_type_attribute) %>'
+existing.append '<%= document_attribute attribute %>'
 <% end %>
 <% end %>
