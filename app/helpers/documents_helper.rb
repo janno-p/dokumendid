@@ -25,7 +25,7 @@ module DocumentsHelper
 
   def doc_attribute_label(attribute, name)
     label_tag name, class: "col-sm-2 control-label input-sm" do
-      "#{attribute.doc_attribute_type.type_name.capitalize}: "
+      "#{attribute.doc_attribute_type.type_name.capitalize}"
     end
   end
 
@@ -38,15 +38,17 @@ module DocumentsHelper
   end
 
   def doc_attribute_select(attribute, property)
+    html_options = {class: "form-control input-sm"}
+    html_options[:include_blank] = true unless attribute.required.upcase == 'Y'
     doc_attribute_control attribute do |name|
       collection = attribute.doc_attribute_type.atr_type_selection_values
       options = options_from_collection_for_select(collection, :atr_type_selection_value, :value_text, attribute[property])
-      select_tag name, options, include_blank: true, class: "form-control input-sm"
+      select_tag name, options, html_options
     end
   end
 
   def doc_attribute_control(attribute)
-    content_tag :div, class: "form-group" do
+    content_tag :div, class: (attribute.required == 'Y' ? "form-group required" : "form-group") do
       name = doc_attribute_name attribute
       label_html = doc_attribute_label attribute, name
       control_html = content_tag :div, class: "col-sm-5" do

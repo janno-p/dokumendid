@@ -4,6 +4,7 @@ class DocTypeAttribute < ActiveRecord::Base
 
   default_scope { order("orderby") }
 
+  belongs_to :doc_type, foreign_key: "doc_type_fk"
   belongs_to :doc_attribute_type, foreign_key: "doc_attribute_type_fk"
 
   def attribute_id

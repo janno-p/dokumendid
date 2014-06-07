@@ -18,23 +18,23 @@
 %h4 Uue dokumendi lisamine
 
 = form_for(@document, url: catalog_documents_url(@current_catalog, @document), html: {class: "form-horizontal"}) do |f|
-  .form-group
-    = f.label :doc_type, "Tüüp: ", class: "col-sm-2 control-label input-sm"
+  .form-group.required
+    = f.label :doc_type, "Tüüp", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       - if @document.doc_attributes.any?
         = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, class: "form-control input-sm"
       - else
         = f.grouped_collection_select :doc_type, @document_types, :doc_types, :type_name, :id, :type_name, {prompt: "Vali dokumendi tüüp ..."}, class: "form-control input-sm"
-  .form-group
-    = f.label :name, "Nimetus: ", class: "col-sm-2 control-label input-sm"
+  .form-group.required
+    = f.label :name, "Nimetus", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       = f.text_field :name, class: "form-control input-sm"
   .form-group
-    = f.label :description, "Kirjeldus: ", class: "col-sm-2 control-label input-sm"
+    = f.label :description, "Kirjeldus", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       = f.text_area :description, rows: 3, class: "form-control input-sm"
   .form-group
-    = f.label :doc_status_type, "Staatus: ", class: "col-sm-2 control-label input-sm"
+    = f.label :doc_status_type, "Staatus", class: "col-sm-2 control-label input-sm"
     .col-sm-5
       = f.collection_select :doc_status_type, @doc_status_types, :doc_status_type, :type_name, {include_blank: true}, class: "form-control input-sm"
   .form-group
