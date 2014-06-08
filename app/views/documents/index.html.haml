@@ -1,3 +1,17 @@
+- content_for :head do
+  :javascript
+    $(document).ready(function () {
+      $(".add-to-buffer").change(function () {
+        var $tr = $(this).parent().parent();
+        if (this.checked) {
+          $tr.animate_from_to(".fa-clipboard");
+          $tr.addClass("success");
+        } else {
+          $tr.removeClass("success");
+        }
+      });
+    });
+
 -if flash[:notice]
   .alert.alert-success.alert-dismissable
     %button.close{:type => "button", :"data-dismiss" => "alert", :"aria-hidden" => "true"} &times;
@@ -15,7 +29,7 @@
       - @current_catalog.documents.each do |document|
         %tr
           %td
-            %input{:type => "checkbox"}
+            %input{:type => "checkbox", :class => "add-to-buffer"}
           %td
             = link_to document.name, edit_document_path(document)
           %td.text-right

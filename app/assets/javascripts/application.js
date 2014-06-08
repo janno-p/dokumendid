@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.animate_from_to-1.0.min
 //= require bootstrap/affix
 //= require bootstrap/alert
 //= require bootstrap/button
