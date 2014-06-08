@@ -84,6 +84,14 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def destroy
+    @document = Document.find(params[:id])
+    @document.document_doc_catalog.current_user = @current_user
+    @current_catalog = @document.doc_catalog
+    @document.destroy
+    redirect_to catalog_documents_path(@current_catalog), notice: "Dokument on kustutatud."
+  end
+
   private
 
   def load_catalog_context

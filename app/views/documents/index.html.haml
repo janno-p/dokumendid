@@ -19,7 +19,7 @@
           %td
             = link_to document.name, edit_document_path(document)
           %td.text-right
-            %a.btn.btn-danger.btn-xs
+            = link_to document_path(document), method: :delete, data: { confirm: "Kas oled kindel, et soovid dokumendi kustutada?" }, class: "btn btn-danger btn-xs" do
               %i.fa.fa-trash-o
               Kustuta
 - elsif @current_catalog == @root
