@@ -21,7 +21,7 @@
     %h3
       %small Dokumendi atribuudid
     - @document.doc_attributes.each do |attribute|
-      = document_attribute attribute
+      = bs_doc_attribute attribute, attribute.doc_attribute
   .form-group
     .col-sm-offset-2.col-sm-5
       %button.btn.btn-primary.btn-sm(type="submit") Salvesta

@@ -9,7 +9,7 @@ class DocType < ActiveRecord::Base
 
   has_many :doc_type_attributes, foreign_key: "doc_type_fk"
 
-  def readonly?
-    true
-  end
+  #def readonly?
+  #  true
+  #end
 end
