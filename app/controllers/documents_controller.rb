@@ -50,13 +50,13 @@ class DocumentsController < ApplicationController
   end
 
   def edit
-    @document = Document.find(params[:id])
+    @document = Document.find(params[:id]) rescue not_found
     @current_catalog = @document.doc_catalog
   end
 
   def update
     now = DateTime.now
-    @document = Document.find(params[:id])
+    @document = Document.find(params[:id]) rescue not_found
     @current_catalog = @document.doc_catalog
     @document.update_attributes({ name: params[:document][:name],
                                   description: params[:document][:description],
@@ -78,14 +78,14 @@ class DocumentsController < ApplicationController
 
   def attributes
     if request.xhr?
-      @doc_type = DocType.find(params[:id])
+      @doc_type = DocType.find(params[:id]) rescue not_found
     else
       not_found
     end
   end
 
   def destroy
-    @document = Document.find(params[:id])
+    @document = Document.find(params[:id]) rescue not_found
     @document.document_doc_catalog.current_user = @current_user
     @current_catalog = @document.doc_catalog
     @document.destroy
@@ -96,7 +96,11 @@ class DocumentsController < ApplicationController
 
   def load_catalog_context
     @root = DocCatalog.root
-    @current_catalog = params[:catalog_id].to_i == 0 ? @root : DocCatalog.find(params[:catalog_id])
+    if params[:catalog_id].to_i == 0 then
+      @current_catalog = @root
+    else
+      @current_catalog = DocCatalog.find(params[:catalog_id]) rescue not_found
+    end
   end
 
   def load_document_context
