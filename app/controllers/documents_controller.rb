@@ -27,7 +27,8 @@ class DocumentsController < ApplicationController
                                  created: DateTime.now,
                                  created_by: @current_user.employee.employee,
                                  updated: DateTime.now,
-                                 updated_by: @current_user.employee.employee })
+                                 updated_by: @current_user.employee.employee,
+                                 current_user: @current_user })
       @document.build_document_doc_catalog(doc_catalog: @current_catalog,
                                            catalog_time: DateTime.now,
                                            current_user: @current_user)
@@ -61,7 +62,8 @@ class DocumentsController < ApplicationController
                                   description: params[:document][:description],
                                   doc_status_type_fk: params[:document][:doc_status_type],
                                   updated: now,
-                                  updated_by: @current_user.employee.employee })
+                                  updated_by: @current_user.employee.employee,
+                                  current_user: @current_user })
     @document.doc_catalog.update_attributes({ content_updated: now,
                                               content_updated_by: @current_user.employee.employee })
     @document.doc_attributes.each do |doc_attribute|

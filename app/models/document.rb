@@ -21,4 +21,17 @@ class Document < ActiveRecord::Base
   validates :doc_status_type, presence: { message: "Dokumendi staatuse määramine on kohustuslik." }
 
   validates_associated :doc_attributes
+
+  attr_accessor :current_user
+
+  before_save do
+    current_status = doc_statuses.find_by_status_end(nil)
+    if current_status.nil? or not current_status.doc_status_type_fk == doc_status_type_fk then
+      now = DateTime.now
+      current_status.update_attributes({ status_end: now }) if current_status
+      doc_statuses.build({ doc_status_type_fk: doc_status_type_fk,
+                           status_begin: now,
+                           created_by: current_user.employee.employee })
+    end
+  end
 end
