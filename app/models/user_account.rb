@@ -10,8 +10,12 @@ class UserAccount < ActiveRecord::Base
 
   def self.authenticate(name, password)
     expected_password = encrypted_password(password)
-    user = self.where("subject_type_fk = ? and username = ? and passw = ?", 3, name, expected_password).first
+    user = self.where("username = ? and passw = ?", name, expected_password).first
     user
+  end
+
+  def employee?
+    subject_type_fk == 3
   end
 
   private

@@ -21,3 +21,8 @@
   .alert.alert-warning Juurkataloogi ei ole lubatud dokumente lisada.
 - else
   .alert.alert-info Valitud kataloogis ei ole dokumente.
+
+- unless @current_catalog == @root or @current_catalog.content_updated.nil?
+  .well.well-sm
+    %small
+      = "Kataloogi andmeid on viimati muudetud #{@current_catalog.content_updated.strftime("%d.%m.%Y kell %H:%M:%S")} töötaja #{@current_catalog.employee.person.full_name} poolt."

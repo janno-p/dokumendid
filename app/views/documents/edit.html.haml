@@ -26,3 +26,8 @@
     .col-sm-offset-2.col-sm-5
       %button.btn.btn-primary.btn-sm(type="submit") Salvesta
       = link_to "Tühista", catalog_documents_path(@current_catalog), class: "btn btn-default btn-sm"
+
+- unless @document.updated.nil?
+  .well.well-sm
+    %small
+      = "Dokumendi andmeid on viimati muudetud #{@document.updated.strftime("%d.%m.%Y kell %H:%M:%S")}" + (@document.employee.nil? ? "." : " töötaja #{@document.employee.person.full_name} poolt.")

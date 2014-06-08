@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
     if @current_catalog.nil? or @current_catalog == @root then
       redirect_to catalog_documents_path(0)
     else
-      doc_type = DocType.find(params[:document][:doc_type].to_i)
+      doc_type = DocType.find(params[:document][:doc_type].to_i) rescue nil
       @document = Document.new({ name: params[:document][:name],
                                  description: params[:document][:description],
                                  doc_type: doc_type,

@@ -13,6 +13,8 @@ class Document < ActiveRecord::Base
   belongs_to :doc_status_type, foreign_key: "doc_status_type_fk"
   has_many :doc_statuses, foreign_key: "document_fk"
 
+  belongs_to :employee, foreign_key: "updated_by"
+
   validates :name, presence: { message: "Dokumendi nimetus on kohustuslik märkida." },
                    length: { maximum: 150, message: "Dokumendi nimetus võib olla maksimaalselt 150 tähemärki." }
   validates :doc_type, presence: { message: "Dokumendi tüüp on kohustuslik märkida." }

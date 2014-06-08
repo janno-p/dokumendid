@@ -10,6 +10,8 @@ class DocCatalog < ActiveRecord::Base
   has_many :document_doc_catalogs, foreign_key: "doc_catalog_fk"
   has_many :documents, through: :document_doc_catalogs
 
+  belongs_to :employee, foreign_key: "content_updated_by"
+
   def self.root
     self.new do |catalog|
       catalog.id = 0
