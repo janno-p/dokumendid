@@ -2,7 +2,7 @@ require 'pp'
 
 class DocumentsController < ApplicationController
   before_filter :load_catalog_context, except: [:attributes]
-  before_filter :load_document_context, only: [:new, :edit, :create]
+  before_filter :load_document_context, only: [:new, :edit, :create, :update]
 
   def index
   end
@@ -51,6 +51,27 @@ class DocumentsController < ApplicationController
   def edit
     @document = Document.find(params[:id])
     @current_catalog = @document.doc_catalog
+  end
+
+  def update
+    now = DateTime.now
+    @document = Document.find(params[:id])
+    @current_catalog = @document.doc_catalog
+    @document.update_attributes({ name: params[:document][:name],
+                                  description: params[:document][:description],
+                                  doc_status_type_fk: params[:document][:doc_status_type],
+                                  updated: now,
+                                  updated_by: @current_user.employee.employee })
+    @document.doc_catalog.update_attributes({ content_updated: now,
+                                              content_updated_by: @current_user.employee.employee })
+    @document.doc_attributes.each do |doc_attribute|
+      doc_attribute.update_attributes({ value: params[:document][:attributes][doc_attribute.doc_attribute.to_s] })
+    end
+    if @document.save then
+      redirect_to catalog_documents_path(@current_catalog), notice: "Dokumendi andmed muudetud."
+    else
+      render action: :edit
+    end
   end
 
   def attributes

@@ -1,22 +1,10 @@
 %h4 Dokumendi muutmine
 
-= form_for(@document, url: document_path(@document), html: {class: "form-horizontal"}) do |f|
-  .form-group.required
-    = label_tag :doc_type, "Tüüp", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = text_field_tag :doc_type, @document.doc_type.type_name, class: "form-control input-sm", readonly: "readonly"
-  .form-group.required
-    = f.label :name, "Nimetus", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = f.text_field :name, class: "form-control input-sm"
-  .form-group
-    = f.label :description, "Kirjeldus", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = f.text_area :description, rows: 3, class: "form-control input-sm"
-  .form-group.required
-    = f.label :doc_status_type_fk, "Staatus", class: "col-sm-2 control-label input-sm"
-    .col-sm-5
-      = f.collection_select :doc_status_type_fk, @doc_status_types, :doc_status_type, :type_name, {include_blank: true}, class: "form-control input-sm"
+= form_tag document_path(@document), method: :put, class: "form-horizontal" do
+  = bs_text_field :document, :doc_type, "Tüüp", @document.doc_type.type_name, required: true, readonly: true
+  = bs_text_field :document, :name, "Nimetus", @document.name, required: true
+  = bs_text_area :document, :description, "Kirjeldus", @document.description
+  = bs_select :document, :doc_status_type, "Staatus", @doc_status_types, @document.doc_status_type, required: true, key: :doc_status_type, value: :type_name
   - if @document.doc_attributes.any?
     %h3
       %small Dokumendi atribuudid

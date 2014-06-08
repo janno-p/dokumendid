@@ -1,3 +1,8 @@
+-if flash[:notice]
+  .alert.alert-success.alert-dismissable
+    %button.close{:type => "button", :"data-dismiss" => "alert", :"aria-hidden" => "true"} &times;
+    = flash[:notice]
+
 - if @current_catalog.documents.any?
   %table.table.table-hover.table-condensed
     %thead

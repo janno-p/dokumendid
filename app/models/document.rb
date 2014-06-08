@@ -19,4 +19,6 @@ class Document < ActiveRecord::Base
                    length: { maximum: 150, message: "Dokumendi nimetus võib olla maksimaalselt 150 tähemärki." }
   validates :doc_type, presence: { message: "Dokumendi tüüp on kohustuslik märkida." }
   validates :doc_status_type, presence: { message: "Dokumendi staatuse määramine on kohustuslik." }
+
+  validates_associated :doc_attributes
 end

@@ -36,6 +36,14 @@ class DocAttribute < ActiveRecord::Base
 
   def value=(v)
     @value = v
+    case data_type
+    when DATA_TYPE_TEXT then
+      self.value_text = v
+    when DATA_TYPE_NUMBER then
+      self.value_number = v.to_f rescue nil
+    when DATA_TYPE_DATE then
+      self.value_date = Date.strptime(v, "%d.%m.%Y") rescue nil
+    end
   end
 
   validate :presence_when_required

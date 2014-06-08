@@ -47,7 +47,9 @@ module DocumentsHelper
     name = object.to_s + "[" + property.to_s + "]"
     options[:errors] = self.instance_variable_get("@#{object}").errors[property]
     bs_control id, text, options do
-      tag "input", class: "form-control input-sm", id: id, name: name, type: "text", value: value
+      tag_options = { class: "form-control input-sm", id: id, name: name, type: "text", value: value }
+      tag_options[:readonly] = "readonly" if options[:readonly]
+      tag "input", tag_options
     end
   end
 
