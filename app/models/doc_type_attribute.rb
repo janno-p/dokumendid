@@ -27,11 +27,19 @@ class DocTypeAttribute < ActiveRecord::Base
       orderby: self.orderby,
       required: self.required,
     }
-    value_mapping = { 1 => :value_text,
-                      2 => :value_number,
-                      3 => :value_date,
-                      4 => :atr_type_selection_value_fk }
-    doc_attribute[value_mapping[self.doc_attribute_type.data_type_fk]] = value
+    if data_type = 4 and not self.doc_attribute_type.default_selection_id_fk.nil? then
+      doc_attribute[:atr_type_selection_value_fk] = self.doc_attribute_type.default_selection_id_fk
+    end
+    if data_type = 2 and not self.doc_attribute_type.default_value_text.nil? then
+      doc_attribute[:value_text] = self.doc_attribute_type.default_value_text
+    end
+    unless value.nil? then
+      value_mapping = { 1 => :value_text,
+                        2 => :value_number,
+                        3 => :value_date,
+                        4 => :atr_type_selection_value_fk }
+      doc_attribute[value_mapping[self.doc_attribute_type.data_type_fk]] = value
+    end
     doc_attribute
   end
 end

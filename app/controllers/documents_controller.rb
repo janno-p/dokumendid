@@ -38,7 +38,7 @@ class DocumentsController < ApplicationController
           value = params[:document][:attributes][doc_type_attribute.doc_type_attribute.to_s]
           attribute = @document.doc_attributes.build(doc_type_attribute.to_doc_attribute(value))
           attribute.doc_type_attribute = doc_type_attribute
-          attribute.value = value
+          attribute.value = value unless value.nil?
         end
       end
       if @document.save then
