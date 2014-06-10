@@ -1,15 +1,30 @@
 - content_for :head do
   :javascript
     $(document).ready(function () {
+      var bufferSize = #{@buffer_size};
+      function updateBuffer() {
+        var count = bufferSize + $(".add-to-buffer:checked").length;
+        if (count == 0) {
+          $(".btn-buffer").addClass("disabled");
+        } else {
+          $(".btn-buffer").removeClass("disabled");
+        }
+      }
       $(".add-to-buffer").change(function () {
         var $tr = $(this).parent().parent();
         if (this.checked) {
           $tr.animate_from_to(".fa-clipboard");
           $tr.addClass("success");
+          $.ajax({ url: "/documents/buffer/" + $(this).attr("data-id") + "/add", dataType: "script" });
         } else {
-          $tr.removeClass("success");
+          $(".fa-clipboard").animate_from_to($tr, {
+            callback: function() { $tr.removeClass("success"); }
+          });
+          $.ajax({ url: "/documents/buffer/" + $(this).attr("data-id") + "/remove", dataType: "script" });
         }
+        updateBuffer();
       });
+      updateBuffer();
     });
 
 -if flash[:notice]
@@ -27,9 +42,9 @@
         %th &nbsp;
     %tbody
       - @current_catalog.documents.each do |document|
-        %tr
+        %tr{ class: ("success" if @buffer.include? document.document) }
           %td
-            %input{:type => "checkbox", :class => "add-to-buffer"}
+            = check_box_tag nil, nil, (@buffer.include? document.document), class: "add-to-buffer", :"data-id" => document.document
           %td
             = link_to document.name, edit_document_path(document)
           %td.text-right

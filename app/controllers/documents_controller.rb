@@ -1,10 +1,14 @@
 require 'pp'
 
 class DocumentsController < ApplicationController
-  before_filter :load_catalog_context, except: [:attributes]
+  before_filter :load_catalog_context, except: [:attributes, :add_to_buffer, :remove_from_buffer]
   before_filter :load_document_context, only: [:new, :edit, :create, :update]
 
   def index
+    session[:buffer] ||= []
+    @buffer = session[:buffer]
+    folder_count = @current_catalog.documents.to_a.count { |d| @buffer.include? d.document }
+    @buffer_size = @buffer.size - folder_count
   end
 
   def new
@@ -90,6 +94,28 @@ class DocumentsController < ApplicationController
     @current_catalog = @document.doc_catalog
     @document.destroy
     redirect_to catalog_documents_path(@current_catalog), notice: "Dokument on kustutatud."
+  end
+
+  def add_to_buffer
+    if request.xhr? then
+      session[:buffer] ||= []
+      document = Document.find(params[:id]) rescue nil
+      session[:buffer] << document.document unless document.nil?
+      session[:buffer].uniq!
+      render json: "ok"
+    else
+      not_found
+    end
+  end
+
+  def remove_from_buffer
+    if request.xhr? then
+      session[:buffer] ||= []
+      session[:buffer].delete params[:id].to_i
+      render json: "ok"
+    else
+      not_found
+    end
   end
 
   private

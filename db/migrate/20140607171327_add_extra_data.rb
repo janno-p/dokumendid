@@ -63,6 +63,7 @@ class AddExtraData < ActiveRecord::Migration
     end
     if default then
       attribute_type.default_selection_id_fk = attribute_values[default].atr_type_selection_value
+      attribute_type.save
     end
     add_attibute_to_type(attribute_type, doc_types)
   end
