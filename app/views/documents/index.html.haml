@@ -15,12 +15,12 @@
         if (this.checked) {
           $tr.animate_from_to(".fa-clipboard");
           $tr.addClass("success");
-          $.ajax({ url: "/documents/buffer/" + $(this).attr("data-id") + "/add", dataType: "script" });
+          $.ajax({ url: "/clipboard/add/" + $(this).attr("data-id"), dataType: "script" });
         } else {
           $(".fa-clipboard").animate_from_to($tr, {
             callback: function() { $tr.removeClass("success"); }
           });
-          $.ajax({ url: "/documents/buffer/" + $(this).attr("data-id") + "/remove", dataType: "script" });
+          $.ajax({ url: "/clipboard/remove/" + $(this).attr("data-id"), dataType: "script" });
         }
         updateBuffer();
       });

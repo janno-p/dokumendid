@@ -96,28 +96,6 @@ class DocumentsController < ApplicationController
     redirect_to catalog_documents_path(@current_catalog), notice: "Dokument on kustutatud."
   end
 
-  def add_to_buffer
-    if request.xhr? then
-      session[:buffer] ||= []
-      document = Document.find(params[:id]) rescue nil
-      session[:buffer] << document.document unless document.nil?
-      session[:buffer].uniq!
-      render json: "ok"
-    else
-      not_found
-    end
-  end
-
-  def remove_from_buffer
-    if request.xhr? then
-      session[:buffer] ||= []
-      session[:buffer].delete params[:id].to_i
-      render json: "ok"
-    else
-      not_found
-    end
-  end
-
   private
 
   def load_catalog_context
