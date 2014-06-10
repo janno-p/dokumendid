@@ -17,7 +17,7 @@ class SessionController < ApplicationController
   end
 
   def sign_out
-    session[:user_id] = nil
+    reset_session
     flash[:notice] = "Välja logitud"
     redirect_to sign_in_path
   end
