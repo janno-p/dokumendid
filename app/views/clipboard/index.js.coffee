@@ -17,6 +17,14 @@ if existing.length == 0
             existing.modal("hide") })
         false
     save_button = $("<button>").addClass("btn btn-primary").attr("type", "button").append("Liiguta kataloogi")
+    <% if @current_catalog.nil? %>
+    save_button.addClass("disabled")
+    <% else %>
+    save_button.click ->
+        $.getJSON("/clipboard/paste/<%= @current_catalog.id %>?" + (new Date().getTime()),
+                  (data) ->
+                        window.location.href = data.url)
+    <% end %>
     footer = $("<div>").addClass("modal-footer").append([empty_button, save_button])
     content = $("<div>").addClass("modal-content").append([header, body, footer])
     dialog = $("<div>").addClass("modal-dialog").append(content)

@@ -17,12 +17,32 @@ class ClipboardController < ApplicationController
 
   def index
     session[:buffer] ||= []
+    @current_catalog = DocCatalog.find(params[:catalog]) rescue nil
     @documents = Document.where(document: session[:buffer])
   end
 
   def clear
     session[:buffer] = []
     render json: "ok"
+  end
+
+  def paste
+    @current_catalog = DocCatalog.find(params[:catalog]) rescue nil
+    unless @current_catalog.nil? then
+      @documents = Document.where(document: session[:buffer])
+      Document.transaction do
+        @documents.each do |doc|
+          doc.document_doc_catalog.current_user = @current_user
+          doc.document_doc_catalog.destroy
+          doc.build_document_doc_catalog(doc_catalog: @current_catalog,
+                                         catalog_time: DateTime.now,
+                                         current_user: @current_user)
+          doc.document_doc_catalog.save
+        end
+      end
+      session[:buffer] = []
+    end
+    render json: { url: catalog_documents_path(@current_catalog) }
   end
 
   private

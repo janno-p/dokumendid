@@ -26,8 +26,14 @@
       });
       updateBuffer();
       $("#btn-open-buffer").click(function() {
-        $.ajax({ url: "/clipboard/index", dataType: "script" });
-        return false;
+        $.ajax({ url: "/clipboard/index/#{@current_catalog.id}", dataType: "script" });
+      });
+      $("#btn-paste-buffer").click(function() {
+        $.getJSON("/clipboard/paste/#{@current_catalog.id}?" + (new Date().getTime()),
+                  function(data) {
+                    window.location.href = data.url;
+                  } 
+        );
       });
     });
 
