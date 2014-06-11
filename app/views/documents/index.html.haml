@@ -25,6 +25,10 @@
         updateBuffer();
       });
       updateBuffer();
+      $("#btn-open-buffer").click(function() {
+        $.ajax({ url: "/clipboard/index", dataType: "script" });
+        return false;
+      });
     });
 
 -if flash[:notice]
@@ -33,7 +37,7 @@
     = flash[:notice]
 
 - if @current_catalog.documents.any?
-  %table.table.table-hover.table-condensed
+  %table.table.table-hover.table-condensed.files
     %thead
       %tr
         %th

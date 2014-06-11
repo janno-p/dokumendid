@@ -15,6 +15,16 @@ class ClipboardController < ApplicationController
     render json: "ok"
   end
 
+  def index
+    session[:buffer] ||= []
+    @documents = Document.where(document: session[:buffer])
+  end
+
+  def clear
+    session[:buffer] = []
+    render json: "ok"
+  end
+
   private
 
   def check_if_xhr

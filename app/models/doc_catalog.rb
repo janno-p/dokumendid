@@ -12,6 +12,10 @@ class DocCatalog < ActiveRecord::Base
 
   belongs_to :employee, foreign_key: "content_updated_by"
 
+  def full_path
+    (doc_catalog.nil? ? "/" : "#{doc_catalog.full_path}/") + name
+  end
+
   def self.root
     self.new do |catalog|
       catalog.id = 0

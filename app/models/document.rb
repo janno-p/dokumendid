@@ -24,6 +24,10 @@ class Document < ActiveRecord::Base
 
   attr_accessor :current_user
 
+  def full_path
+    doc_catalog.full_path + "/#{name}"
+  end
+
   before_save do
     current_status = doc_statuses.find_by_status_end(nil)
     if current_status.nil? or not current_status.doc_status_type_fk == doc_status_type_fk then
