@@ -869,3 +869,35 @@ Kui midagi jääb ebaselgeks või midagi ei ole täpselt kirjeldatud, siis võib
 küsida, aga võib ka ise otsustada ebaselgetes situatsioonides, kuidas rakendus peaks toimima.
 Ilmselt on mõistlik otsustada nii, et peaks vähem programmeerima, et rakenduse toimimine oleks
 lihtsam.
+
+
+## Täiendavad disainimustrid
+
+RubyOnRailsi raamistikku sisseehitatud mustrid:
+
+* ActiveRecord
+* Convention over configuration
+* RESTful routing
+* DRY
+* ...
+
+
+## Kasutatav SQL protseduur
+
+```SQL
+CREATE OR REPLACE FUNCTION delete_document (document_id IN NUMERIC(10), user_id IN NUMERIC(10))
+RETURNS void AS
+$$
+BEGIN
+  UPDATE doc_catalog SET content_updated_by = user_id, content_updated = NOW() WHERE doc_catalog IN (
+    SELECT doc_catalog_fk FROM document_doc_catalog WHERE document_fk = document_id
+  );
+  DELETE FROM document_doc_catalog WHERE document_fk = document_id;
+  DELETE FROM document_doc_type WHERE document_fk = document_id;
+  DELETE FROM doc_attribute WHERE document_fk = document_id;
+  DELETE FROM doc_status WHERE document_fk = document_id;
+  DELETE FROM document WHERE document = document_id;
+END;
+$$
+LANGUAGE 'plpgsql';
+```

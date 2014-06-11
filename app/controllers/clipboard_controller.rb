@@ -1,8 +1,11 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 class ClipboardController < ApplicationController
   before_filter :check_if_xhr
 
   def add
-    session[:buffer] ||= []
     document = Document.find(params[:id]) rescue nil
     session[:buffer] << document.document unless document.nil?
     session[:buffer].uniq!
@@ -10,13 +13,11 @@ class ClipboardController < ApplicationController
   end
 
   def remove
-    session[:buffer] ||= []
     session[:buffer].delete params[:id].to_i
     render json: "ok"
   end
 
   def index
-    session[:buffer] ||= []
     @current_catalog = DocCatalog.find(params[:catalog]) rescue nil
     @documents = Document.where(document: session[:buffer])
   end
@@ -50,6 +51,8 @@ class ClipboardController < ApplicationController
   def check_if_xhr
     unless request.xhr? then
       not_found
+    else
+      session[:buffer] ||= []
     end
   end
 end

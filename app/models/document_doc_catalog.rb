@@ -1,3 +1,7 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 class DocumentDocCatalog < ActiveRecord::Base
   self.table_name = "document_doc_catalog"
   self.primary_key = "document_doc_catalog"

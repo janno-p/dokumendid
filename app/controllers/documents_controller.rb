@@ -1,4 +1,6 @@
-require 'pp'
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
 
 class DocumentsController < ApplicationController
   before_filter :load_catalog_context, except: [:attributes, :add_to_buffer, :remove_from_buffer]
@@ -90,9 +92,10 @@ class DocumentsController < ApplicationController
 
   def destroy
     @document = Document.find(params[:id]) rescue not_found
-    @document.document_doc_catalog.current_user = @current_user
     @current_catalog = @document.doc_catalog
-    @document.destroy
+    #@document.document_doc_catalog.current_user = @current_user
+    #@document.destroy
+    Document.delete_sp(@document, @current_user)
     redirect_to catalog_documents_path(@current_catalog), notice: "Dokument on kustutatud."
   end
 

@@ -48,6 +48,7 @@
       %tr
         %th
           %i.fa.fa-cut{:title => "Vali liigutamiseks"}
+        %th Id
         %th Dokumendi nimi
         %th &nbsp;
     %tbody
@@ -55,6 +56,7 @@
         %tr{ class: ("success" if @buffer.include? document.document) }
           %td
             = check_box_tag nil, nil, (@buffer.include? document.document), class: "add-to-buffer", :"data-id" => document.document
+          %td= document.document
           %td
             = link_to document.name, edit_document_path(document)
           %td.text-right

@@ -1,3 +1,7 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 class Document < ActiveRecord::Base
   self.table_name = "document"
   self.primary_key = "document"
@@ -37,5 +41,9 @@ class Document < ActiveRecord::Base
                            status_begin: now,
                            created_by: current_user.employee.employee })
     end
+  end
+
+  def self.delete_sp(document, user)
+    self.connection.execute("SELECT delete_document(#{document.document}, #{user.user_account})")
   end
 end

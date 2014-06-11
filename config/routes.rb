@@ -1,3 +1,7 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 Dokumendid::Application.routes.draw do
   root "documents#index"
 
@@ -19,4 +23,6 @@ Dokumendid::Application.routes.draw do
   post "sign_in", to: "session#sign_in"
 
   get "sign_out", to: "session#sign_out"
+
+  get 'static/log'
 end

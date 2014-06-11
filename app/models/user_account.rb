@@ -1,3 +1,7 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 class UserAccount < ActiveRecord::Base
   self.table_name = "user_account"
   self.primary_key = "user_account"
