@@ -20,6 +20,7 @@ class DocTypeAttribute < ActiveRecord::Base
   end
 
   def to_doc_attribute(value)
+    data_type = self.doc_attribute_type.data_type_fk
     doc_attribute = {
       atr_type_selection_value_fk: nil,
       doc_attribute_type: self.doc_attribute_type,
@@ -27,7 +28,7 @@ class DocTypeAttribute < ActiveRecord::Base
       value_text: nil,
       value_number: nil,
       value_date: nil,
-      data_type: self.doc_attribute_type.data_type_fk,
+      data_type: data_type,
       orderby: self.orderby,
       required: self.required,
     }
@@ -42,7 +43,7 @@ class DocTypeAttribute < ActiveRecord::Base
                         2 => :value_number,
                         3 => :value_date,
                         4 => :atr_type_selection_value_fk }
-      doc_attribute[value_mapping[self.doc_attribute_type.data_type_fk]] = value
+      doc_attribute[value_mapping[data_type]] = value
     end
     doc_attribute
   end

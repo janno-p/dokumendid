@@ -1,6 +1,10 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 class FormsController < ApplicationController
-  #before_filter :check_if_xhr
-  protect_from_forgery :except => :attributes
+  before_filter :check_if_xhr
+  #protect_from_forgery :except => :attributes
 
   def attributes
     @attributes = DocTypeAttribute.where("doc_type_fk = ?", params[:doc_type].to_i)

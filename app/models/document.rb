@@ -83,4 +83,23 @@ class Document < ActiveRecord::Base
       documents
     end
   end
+
+  def self.attribute_qry(documents, attribute, value)
+    if value.present? then
+      case attribute.doc_attribute_type.data_type_fk
+      when 1
+        documents.where('POSITION(LOWER(?) IN LOWER("doc_attribute"."value_text")) > 0', value)
+      when 2
+        documents.where('"doc_attribute"."value_number" = ?', value)
+      when 3
+        documents.where('POSITION(? IN TO_CHAR("doc_attribute"."value_date", \'DD.MM.YYYY\')) > 0', value)
+      when 4
+        documents.where('"doc_attribute"."atr_type_selection_value_fk" = ?', value)
+      else
+        documents
+      end
+    else
+      documents
+    end
+  end
 end

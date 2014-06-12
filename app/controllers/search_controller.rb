@@ -1,3 +1,7 @@
+# Project:: IDU0200
+# Author::  Janno Põldma (139015 FAY)
+# Version:: 1.0 (11.06.2014)
+
 class SearchController < ApplicationController
   def index
     @root = DocCatalog.root
@@ -16,6 +20,15 @@ class SearchController < ApplicationController
     if params[:document][:type].present? then
       documents = Document.of_type_qry(documents, params[:document][:type])
       @attributes = DocTypeAttribute.where("doc_type_fk = ?", params[:document][:type].to_i)
+      has_join = false
+      @attributes.each do |attribute|
+        value = params[:document][:attribute][attribute.doc_type_attribute.to_s]
+        if value.present? and not has_join then
+          documents = documents.joins(:doc_attributes)
+          has_join = true
+        end
+        documents = Document.attribute_qry(documents, attribute, value)
+      end
     else
       documents = Document.general_attribute_qry(documents, params[:document][:attribute_value])
     end
