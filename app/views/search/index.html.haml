@@ -35,12 +35,12 @@
   .panel.panel-default
     .panel-heading
       %h4.panel-title
-        -if @results
+        -if @content
           %a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne") Otsingu kriteeriumid
         -else
           Otsingu kriteeriumid
-    #collapseOne.panel-collapse.collapse.in
-      .panel.body
+    #collapseOne.panel-collapse.collapse{:class => ("in" if @content.nil?)}
+      .panel-body
         = form_tag search_results_path, class: "form-horizontal vspace-10" do
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_id") Id
@@ -87,3 +87,5 @@
             .col-sm-offset-3.col-sm-5
               %button.btn.btn-primary.btn-sm(type="submit") Käivita otsing
               = link_to "Tühjenda vorm", "#", class: "btn btn-default btn-sm btn-clear-form"
+  -unless @content.nil?
+    = @content.html_safe

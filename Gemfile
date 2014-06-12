@@ -18,6 +18,8 @@ gem 'therubyracer', '0.12.1'
 gem 'jquery-rails', '3.1.0'
 gem 'jbuilder', '2.0.7'
 
+gem 'nokogiri', '1.6.2.1'
+
 group :doc do
   gem 'sdoc', '0.4.0', require: false
 end

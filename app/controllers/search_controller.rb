@@ -10,7 +10,13 @@ class SearchController < ApplicationController
   end
 
   def results
+    @root = DocCatalog.root
+    @doc_status_types = DocStatusType.order(:type_name).all
+    @doc_types = DocType.joins(:doc_types).where('"doc_type"."level" = 1').uniq.all
+
     documents = Document.order(:name)
+    criteria = SearchCriteria.new(params[:document])
+
     documents = Document.simple_qry(documents, "document", params[:document][:id])
     documents = Document.simple_text_qry(documents, "name", params[:document][:name])
     documents = Document.full_text_qry(documents, "description", params[:document][:description])
@@ -32,9 +38,19 @@ class SearchController < ApplicationController
     else
       documents = Document.general_attribute_qry(documents, params[:document][:attribute_value])
     end
-    render xml: documents.distinct
-  end
 
-  def attributes
+    result_set = documents.distinct.map do |d|
+      { doc: d, path: edit_document_path(d) }
+    end
+
+    documents_xml = Nokogiri::XML(result_set.to_xml)
+    template = Nokogiri::XSLT(File.read(File.join(Rails.root, "app", "views", "search", "documents.xslt")))
+
+    @content = template.transform(documents_xml).to_s
+
+    #render plain: @content
+    #render plain: documents_xml
+
+    render action: :index
   end
 end
