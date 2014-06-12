@@ -6,7 +6,7 @@
         var value = $doc_type.find("option:selected").val();
         if (value) {
           $doc_type.find("option[value='']").remove();
-          $.ajax({ url: "/documents/attributes/" + value, dataType: "script" });
+          $.ajax({ url: "#{@root_path}documents/attributes/" + value, dataType: "script" });
         }
       }
       if ($("div#attributes").length == 0) {

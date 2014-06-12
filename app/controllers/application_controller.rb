@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :authorize, :except => :sign_in
+  before_filter :set_root_path
 
   protected
 
@@ -21,5 +22,9 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "Palun logi sisse"
       redirect_to controller: :session, action: :sign_in
     end
+  end
+
+  def set_root_path
+    @root_path = root_path
   end
 end

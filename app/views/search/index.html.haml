@@ -1,13 +1,14 @@
 - content_for :head do
   :javascript
     $(document).ready(function () {
+      var attr_value = "#{@criteria.attribute_value}";
       var attr_data = {
-        #{@attributes.map { |a| "#{a.doc_type_attribute}: \"#{@criteria.attribute[a.doc_type_attribute.to_s]}\"" }.join(",")}
+        #{(@attributes || []).map { |a| "#{a.doc_type_attribute}: \"#{@criteria.attribute[a.doc_type_attribute.to_s]}\"" }.join(",")}
       };
       var $doc_type = $("#document_type");
       function updateItems() {
         var value = $doc_type.find("option:selected").val() || 0;
-        $.ajax({ url: "/forms/search/attributes/" + value, dataType: "script", complete: function() {
+        $.ajax({ url: "#{@root_path}forms/search/attributes/" + value, dataType: "script", complete: function() {
           if (attr_data) {
             for (var key in attr_data) {
               if (attr_data[key]) {
@@ -16,6 +17,10 @@
               }
             }
             attr_data = null;
+          }
+          if (attr_value) {
+            $("input#document_attribute_value").val(attr_value);
+            attr_value = null;
           }
         } });
       }

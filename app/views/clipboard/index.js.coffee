@@ -8,7 +8,7 @@ if existing.length == 0
     body = $("<div>").addClass("modal-body")
     empty_button = $("<button>").addClass("btn btn-warning").attr("type", "button").append("Tühjenda puhver")
     empty_button.click ->
-        $.ajax({ url: "/clipboard/clear", dataType: "script", complete: () ->
+        $.ajax({ url: "<%= @root_path %>clipboard/clear", dataType: "script", complete: () ->
             $("table.files tr").removeClass("success")
             $("table.files input").attr("checked", false)
             $(".btn-buffer").addClass("disabled")
@@ -21,7 +21,7 @@ if existing.length == 0
     save_button.addClass("disabled")
     <% else %>
     save_button.click ->
-        $.getJSON("/clipboard/paste/<%= @current_catalog.id %>?" + (new Date().getTime()),
+        $.getJSON("<%= @root_path %>clipboard/paste/<%= @current_catalog.id %>?" + (new Date().getTime()),
                   (data) ->
                         window.location.href = data.url)
     <% end %>
@@ -41,7 +41,7 @@ cb.click ->
         ch = $("input[data-id=<%= doc.document %>]")
         ch.attr("checked", false)
         ch.parent().parent().removeClass("success")
-        $.ajax({ url: "/clipboard/remove/<%= doc.document %>", dataType: "script", complete: () ->
+        $.ajax({ url: "<%= @root_path %>clipboard/remove/<%= doc.document %>", dataType: "script", complete: () ->
             if existing.find("li").length == 0
                 $(".btn-buffer").addClass("disabled")
                 $("[data-toggle='dropdown']").parent().removeClass("open")

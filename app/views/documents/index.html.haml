@@ -15,21 +15,21 @@
         if (this.checked) {
           $tr.animate_from_to(".fa-clipboard");
           $tr.addClass("success");
-          $.ajax({ url: "/clipboard/add/" + $(this).attr("data-id"), dataType: "script" });
+          $.ajax({ url: "#{@root_path}clipboard/add/" + $(this).attr("data-id"), dataType: "script" });
         } else {
           $(".fa-clipboard").animate_from_to($tr, {
             callback: function() { $tr.removeClass("success"); }
           });
-          $.ajax({ url: "/clipboard/remove/" + $(this).attr("data-id"), dataType: "script" });
+          $.ajax({ url: "#{@root_path}clipboard/remove/" + $(this).attr("data-id"), dataType: "script" });
         }
         updateBuffer();
       });
       updateBuffer();
       $("#btn-open-buffer").click(function() {
-        $.ajax({ url: "/clipboard/index/#{@current_catalog.id}", dataType: "script" });
+        $.ajax({ url: "#{@root_path}clipboard/index/#{@current_catalog.id}", dataType: "script" });
       });
       $("#btn-paste-buffer").click(function() {
-        $.getJSON("/clipboard/paste/#{@current_catalog.id}?" + (new Date().getTime()),
+        $.getJSON("#{@root_path}clipboard/paste/#{@current_catalog.id}?" + (new Date().getTime()),
                   function(data) {
                     window.location.href = data.url;
                   } 
