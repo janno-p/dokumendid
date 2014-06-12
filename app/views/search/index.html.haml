@@ -1,10 +1,23 @@
 - content_for :head do
   :javascript
     $(document).ready(function () {
+      var attr_data = {
+        #{@attributes.map { |a| "#{a.doc_type_attribute}: \"#{@criteria.attribute[a.doc_type_attribute.to_s]}\"" }.join(",")}
+      };
       var $doc_type = $("#document_type");
       function updateItems() {
         var value = $doc_type.find("option:selected").val() || 0;
-        $.ajax({ url: "/forms/search/attributes/" + value, dataType: "script" });
+        $.ajax({ url: "/forms/search/attributes/" + value, dataType: "script", complete: function() {
+          if (attr_data) {
+            for (var key in attr_data) {
+              if (attr_data[key]) {
+                $("input#document_attribute_" + key).val(attr_data[key]);
+                $("select#document_attribute_" + key + " option[value=" + attr_data[key] + "]").attr("selected", "selected");
+              }
+            }
+            attr_data = null;
+          }
+        } });
       }
       if ($("div#attributes").children().length == 0) {
         updateItems();
@@ -45,31 +58,31 @@
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_id") Id
             .col-sm-1
-              %input.form-control.input-sm(id="document_id" name="document[id]" type="text")
+              %input.form-control.input-sm{id: "document_id", name: "document[id]", type: "text", value: @criteria.id}
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_name") Nimetus
             .col-sm-5
-              %input.form-control.input-sm(id="document_name" name="document[name]" type="text")
+              %input.form-control.input-sm{id: "document_name", name: "document[name]", type: "text", value: @criteria.name}
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_description") Kirjeldus
             .col-sm-5
-              %input.form-control.input-sm(id="document_description" name="document[description]" type="text")
+              %input.form-control.input-sm{id: "document_description", name: "document[description]", type: "text", value: @criteria.description}
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_updated_by") Viimane muutja
             .col-sm-5
-              %input.form-control.input-sm(id="document_updated_by" name="document[updated_by]" type="text")
+              %input.form-control.input-sm{id: "document_updated_by", name: "document[updated_by]", type: "text", value: @criteria.updated_by}
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_catalog") Kataloogi nimi
             .col-sm-5
-              %input.form-control.input-sm(id="document_catalog" type="text" readonly="readonly")
-              %input.form-control.input-sm(id="document_catalog_value" name="document[catalog]" type="hidden")
+              %input.form-control.input-sm{id: "document_catalog", type: "text", readonly: "readonly", value: (@current_catalog ? @current_catalog.full_path : "")}
+              %input.form-control.input-sm{id: "document_catalog_value", name: "document[catalog]", type: "hidden", value: (@current_catalog ? @current_catalog.id : "")}
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_status") Staatus
             .col-sm-5
               %select.form-control.input-sm#doc_type(id="document_status" name="document[status]")
                 %option(value="")
                 - @doc_status_types.each do |doc_status_type|
-                  %option{:value => doc_status_type.doc_status_type}= doc_status_type.type_name
+                  %option{value: doc_status_type.doc_status_type, selected: (doc_status_type.doc_status_type == @criteria.status.to_i ? "selected" : false)}= doc_status_type.type_name
           %hr
           .form-group
             %label.col-sm-3.control-label.input-sm(for="document_type") Dokumendi tüüp
@@ -79,7 +92,7 @@
                 - @doc_types.each do |doc_type|
                   %optgroup{:label => doc_type.type_name}
                     - doc_type.doc_types.each do |sub_doc_type|
-                      %option{:value => sub_doc_type.id}= sub_doc_type.type_name
+                      %option{value: sub_doc_type.id, selected: (sub_doc_type.id == @criteria.type.to_i ? "selected" : false)}= sub_doc_type.type_name
           %hr
           #attributes
           %hr

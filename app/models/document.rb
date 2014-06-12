@@ -52,11 +52,11 @@ class Document < ActiveRecord::Base
   end
 
   def self.simple_text_qry(documents, name, value)
-    value.present? ? documents.where("LOWER(#{name}) LIKE LOWER(?)", "#{value}%") : documents
+    value.present? ? documents.where("LOWER(\"document\".\"#{name}\") LIKE LOWER(?)", "#{value}%") : documents
   end
 
   def self.full_text_qry(documents, name, value)
-    value.present? ? documents.where("TO_TSVECTOR(#{name}) @@ PLAINTO_TSQUERY(?)", value) : documents
+    value.present? ? documents.where("TO_TSVECTOR(\"document\".\"#{name}\") @@ PLAINTO_TSQUERY(?)", value) : documents
   end
 
   def self.of_user_qry(documents, value)
@@ -90,7 +90,7 @@ class Document < ActiveRecord::Base
       when 1
         documents.where('POSITION(LOWER(?) IN LOWER("doc_attribute"."value_text")) > 0', value)
       when 2
-        documents.where('"doc_attribute"."value_number" = ?', value)
+        documents.where('(\'\' || "doc_attribute"."value_number") = ?', value)
       when 3
         documents.where('POSITION(? IN TO_CHAR("doc_attribute"."value_date", \'DD.MM.YYYY\')) > 0', value)
       when 4
@@ -101,5 +101,31 @@ class Document < ActiveRecord::Base
     else
       documents
     end
+  end
+
+  def self.search_documents(criteria)
+    documents = self.order(:document)
+    documents = self.simple_qry(documents, "document", criteria.id)
+    documents = self.simple_text_qry(documents, "name", criteria.name)
+    documents = self.full_text_qry(documents, "description", criteria.description)
+    documents = self.of_user_qry(documents, criteria.updated_by)
+    documents = self.of_catalog_qry(documents, criteria.catalog)
+    documents = self.simple_qry(documents, "doc_status_type_fk", criteria.status)
+    if criteria.type.present? then
+      documents = self.of_type_qry(documents, criteria.type)
+      attributes = DocTypeAttribute.where("doc_type_fk = ?", criteria.type.to_i)
+      has_join = false
+      attributes.each do |attribute|
+        value = criteria.attribute[attribute.doc_type_attribute.to_s]
+        if value.present? and not has_join then
+          documents = documents.joins(:doc_attributes)
+          has_join = true
+        end
+        documents = self.attribute_qry(documents, attribute, value)
+      end
+    else
+      documents = self.general_attribute_qry(documents, criteria.attribute_value)
+    end
+    documents.distinct
   end
 end

@@ -2,11 +2,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="html" />
     <xsl:template match="/">
-        <xsl:choose>
-            <xsl:when test="count(objects/object) &gt; 0">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h4 class="panel-title">Otsingu tulemused</h4></div>
-                    <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">Otsingu tulemused</h4></div>
+            <div class="panel-body">
+                <xsl:choose>
+                    <xsl:when test="count(objects/object) &gt; 0">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -23,15 +23,15 @@
                                 </xsl:for-each>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </xsl:when>
-            <xsl:otherwise>
-                <div class="alert alert-warning">
-                    <strong>Otsingutingimustele ei leitud ühtegi vastet!</strong>
-                    Vajadusel korrigeeri sisestatud otsingutingimusi.
-                </div>
-            </xsl:otherwise>
-        </xsl:choose>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <div class="alert alert-warning">
+                            <strong>Otsingutingimustele ei leitud ühtegi vastet!</strong>
+                            Vajadusel korrigeeri sisestatud otsingutingimusi.
+                        </div>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </div>
+        </div>
     </xsl:template>
 </xsl:stylesheet>
