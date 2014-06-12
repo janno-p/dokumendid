@@ -46,4 +46,33 @@ class Document < ActiveRecord::Base
   def self.delete_sp(document, user)
     self.connection.execute("SELECT delete_document(#{document.document}, #{user.user_account})")
   end
+
+  def self.simple_qry(documents, name, value)
+    value.present? ? documents.where("#{name} = ?", value) : documents
+  end
+
+  def self.simple_text_qry(documents, name, value)
+    value.present? ? documents.where("LOWER(#{name}) LIKE LOWER(?)", "#{value}%") : documents
+  end
+
+  def self.full_text_qry(documents, name, value)
+    value.present? ? documents.where("TO_TSVECTOR(#{name}) @@ PLAINTO_TSQUERY(?)", value) : documents
+  end
+
+  def self.of_user_qry(documents, value)
+    value.present? ? documents.joins(employee: :person).where('LOWER("person"."last_name") LIKE LOWER(?)', "#{value}%") : documents
+  end
+
+  def self.general_attribute_qry(documents, value)
+    if value.present? then
+      documents.joins(:doc_attributes).where(
+        '("doc_attribute"."data_type" = 1 AND POSITION(LOWER(?) IN LOWER("doc_attribute"."value_text")) > 0) OR ' +
+        '("doc_attribute"."data_type" = 2 AND POSITION(? IN \'\' || "doc_attribute"."value_number") > 0) OR ' +
+        '("doc_attribute"."data_type" = 3 AND POSITION(? IN TO_CHAR("doc_attribute"."value_date", \'DD.MM.YYYY\')) > 0) OR ' +
+        '("doc_attribute"."data_type" = 4 AND POSITION(LOWER(?) IN (SELECT LOWER("atr_type_selection_value"."value_text") FROM "atr_type_selection_value" WHERE "atr_type_selection_value"."atr_type_selection_value" = "doc_attribute"."atr_type_selection_value_fk")) > 0)',
+          value, value, value, value)
+    else
+      documents
+    end
+  end
 end

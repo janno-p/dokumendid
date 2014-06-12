@@ -1,0 +1,9 @@
+- content_for :sidebar do
+  .well.sidebar-nav
+    = render "sidebar", catalog: @root
+
+- content_for :breadcrumbs do
+  %ol.breadcrumb
+    %li.active Otsing
+
+= render template: "layouts/application"

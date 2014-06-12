@@ -25,4 +25,7 @@ Dokumendid::Application.routes.draw do
   get "sign_out", to: "session#sign_out"
 
   get 'static/log'
+
+  get "search/index", to: "search#index"
+  post "search/results", to: "search#results"
 end

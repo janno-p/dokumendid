@@ -40,6 +40,10 @@
           /  %li= link_to "Link 3", "/path3"
           -if @current_user
             %ul.nav.navbar-nav.navbar-right
+              %li
+                = link_to search_index_path do
+                  %i.fa.fa-search
+                  Otsing
               %li.dropdown
                 %a.dropdown-toggle(href="#" data-toggle="dropdown")
                   %i.fa.fa-user

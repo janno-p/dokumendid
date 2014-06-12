@@ -1,0 +1,4 @@
+%ul{:class => ("document-list" if catalog == @root)}
+  %li{:class => ("active" if catalog == @root)}
+    = link_to catalog.name, "#", :"data-catalog" => (catalog == @root ? "" : catalog.full_path), :"data-id" => (catalog == @root ? "" : catalog.id)
+    = render partial: "sidebar", collection: catalog.doc_catalogs, as: :catalog
