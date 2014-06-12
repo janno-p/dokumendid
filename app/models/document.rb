@@ -63,6 +63,14 @@ class Document < ActiveRecord::Base
     value.present? ? documents.joins(employee: :person).where('LOWER("person"."last_name") LIKE LOWER(?)', "#{value}%") : documents
   end
 
+  def self.of_catalog_qry(documents, value)
+    value.present? ? documents.joins(document_doc_catalog: :doc_catalog).where('("document_doc_catalog"."doc_catalog_fk" = ?) OR ("doc_catalog"."upper_catalog_fk" = ?)', value, value) : documents
+  end
+
+  def self.of_type_qry(documents, value)
+    value.present? ? documents.joins(:document_doc_type).where('"document_doc_type"."doc_type_fk" = ?', value) : documents
+  end
+
   def self.general_attribute_qry(documents, value)
     if value.present? then
       documents.joins(:doc_attributes).where(

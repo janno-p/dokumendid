@@ -28,4 +28,6 @@ Dokumendid::Application.routes.draw do
 
   get "search/index", to: "search#index"
   post "search/results", to: "search#results"
+
+  get "forms/:form_name/attributes/:doc_type", to: "forms#attributes"
 end

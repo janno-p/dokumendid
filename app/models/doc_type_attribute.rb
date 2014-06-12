@@ -31,10 +31,10 @@ class DocTypeAttribute < ActiveRecord::Base
       orderby: self.orderby,
       required: self.required,
     }
-    if data_type = 4 and not self.doc_attribute_type.default_selection_id_fk.nil? then
+    if data_type == 4 and not self.doc_attribute_type.default_selection_id_fk.nil? then
       doc_attribute[:atr_type_selection_value_fk] = self.doc_attribute_type.default_selection_id_fk
     end
-    if data_type = 2 and not self.doc_attribute_type.default_value_text.nil? then
+    if data_type == 2 and not self.doc_attribute_type.default_value_text.nil? then
       doc_attribute[:value_text] = self.doc_attribute_type.default_value_text
     end
     unless value.nil? then

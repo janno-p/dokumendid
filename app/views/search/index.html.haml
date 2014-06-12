@@ -1,6 +1,17 @@
 - content_for :head do
   :javascript
     $(document).ready(function () {
+      var $doc_type = $("#document_type");
+      function updateItems() {
+        var value = $doc_type.find("option:selected").val() || 0;
+        $.ajax({ url: "/forms/search/attributes/" + value, dataType: "script" });
+      }
+      if ($("div#attributes").children().length == 0) {
+        updateItems();
+      }
+      $doc_type.change(function () {
+        updateItems();
+      });
       $(".document-list a").click(function() {
         $(".document-list li").removeClass("active");
         $(this).parent().addClass("active");
@@ -15,57 +26,64 @@
         $("form select option:first").attr("selected", "selected");
         $(".document-list li").removeClass("active");
         $(".document-list > li").addClass("active");
+        updateItems();
         return false;
       });
     });
 
-= form_tag search_results_path, class: "form-horizontal" do
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_id") Id
-    .col-sm-1
-      %input.form-control.input-sm(id="document_id" name="document[id]" type="text")
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_name") Nimetus
-    .col-sm-5
-      %input.form-control.input-sm(id="document_name" name="document[name]" type="text")
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_description") Kirjeldus
-    .col-sm-5
-      %input.form-control.input-sm(id="document_description" name="document[description]" type="text")
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_updated_by") Viimane muutja
-    .col-sm-5
-      %input.form-control.input-sm(id="document_updated_by" name="document[updated_by]" type="text")
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_catalog") Kataloogi nimi
-    .col-sm-5
-      %input.form-control.input-sm(id="document_catalog" type="text" readonly="readonly")
-      %input.form-control.input-sm(id="document_catalog_value" name="document[catalog]" type="hidden")
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_status") Staatus
-    .col-sm-5
-      %select.form-control.input-sm(id="document_status" name="document[status]")
-        %option(value="")
-        - @doc_status_types.each do |doc_status_type|
-          %option{:value => doc_status_type.doc_status_type}= doc_status_type.type_name
-  %hr
-  .form-group
-    %label.col-sm-2.control-label.input-sm(for="document_type") Dokumendi tüüp
-    .col-sm-5
-      %select.form-control.input-sm(id="document_type" name="document[type]")
-        %option(value="")
-        - @doc_types.each do |doc_type|
-          %optgroup{:label => doc_type.type_name}
-            - doc_type.doc_types.each do |sub_doc_type|
-              %option{:value => sub_doc_type.doc_type}= sub_doc_type.type_name
-  %hr
-  #attributes
-    .form-group
-      %label.col-sm-2.control-label.input-sm(for="document_attribute_value") Atribuudi väärtus
-      .col-sm-5
-        %input.form-control.input-sm(id="document_attribute_value" name="document[attribute_value]" type="text")
-  %hr
-  .form-group
-    .col-sm-offset-2.col-sm-5
-      %button.btn.btn-primary.btn-sm(type="submit") Käivita otsing
-      = link_to "Tühjenda vorm", "#", class: "btn btn-default btn-sm btn-clear-form"
+.panel-group#accordion
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title
+        -if @results
+          %a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne") Otsingu kriteeriumid
+        -else
+          Otsingu kriteeriumid
+    #collapseOne.panel-collapse.collapse.in
+      .panel.body
+        = form_tag search_results_path, class: "form-horizontal vspace-10" do
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_id") Id
+            .col-sm-1
+              %input.form-control.input-sm(id="document_id" name="document[id]" type="text")
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_name") Nimetus
+            .col-sm-5
+              %input.form-control.input-sm(id="document_name" name="document[name]" type="text")
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_description") Kirjeldus
+            .col-sm-5
+              %input.form-control.input-sm(id="document_description" name="document[description]" type="text")
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_updated_by") Viimane muutja
+            .col-sm-5
+              %input.form-control.input-sm(id="document_updated_by" name="document[updated_by]" type="text")
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_catalog") Kataloogi nimi
+            .col-sm-5
+              %input.form-control.input-sm(id="document_catalog" type="text" readonly="readonly")
+              %input.form-control.input-sm(id="document_catalog_value" name="document[catalog]" type="hidden")
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_status") Staatus
+            .col-sm-5
+              %select.form-control.input-sm#doc_type(id="document_status" name="document[status]")
+                %option(value="")
+                - @doc_status_types.each do |doc_status_type|
+                  %option{:value => doc_status_type.doc_status_type}= doc_status_type.type_name
+          %hr
+          .form-group
+            %label.col-sm-3.control-label.input-sm(for="document_type") Dokumendi tüüp
+            .col-sm-5
+              %select.form-control.input-sm(id="document_type" name="document[type]")
+                %option(value="")
+                - @doc_types.each do |doc_type|
+                  %optgroup{:label => doc_type.type_name}
+                    - doc_type.doc_types.each do |sub_doc_type|
+                      %option{:value => sub_doc_type.id}= sub_doc_type.type_name
+          %hr
+          #attributes
+          %hr
+          .form-group
+            .col-sm-offset-3.col-sm-5
+              %button.btn.btn-primary.btn-sm(type="submit") Käivita otsing
+              = link_to "Tühjenda vorm", "#", class: "btn btn-default btn-sm btn-clear-form"
